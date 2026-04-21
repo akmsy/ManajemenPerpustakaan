@@ -34,7 +34,7 @@ void tampilanMenuAwal(){
 }
 
 int main(){
-    cout << "== LOGIN =="s << endl;
+    cout << "== LOGIN ==" << endl;
 	cout << endl;
     kesempatan = 3;
 
