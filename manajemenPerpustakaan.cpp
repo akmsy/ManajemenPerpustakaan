@@ -33,6 +33,27 @@ void tampilanMenuAwal(){
 	system("cls");
 }
 
+//fungsi tambah buku
+int menuTambahBuku(){
+
+    FILE *file = fopen("perpustakaan.txt", "a");
+    Buku bukuBaru; //deklarasi untuk menambah buku baru
+
+    //user input buku baru
+    cout << "Masukkan ISBN: "; cin >> bukuBaru.ISBN;
+    cout << "Masukkan Judul: "; cin >> bukuBaru.judul;
+    cout << "Masukkan Penulis: "; cin >> bukuBaru.penulis;
+    cout << "Masukkan Tahun: "; cin >> bukuBaru.tahun;
+
+    //memasukkan data buku baru ke dalam file
+    fprintf(file, "%s;%s;%s;%d\n", bukuBaru.ISBN, bukuBaru.judul, bukuBaru.penulis, bukuBaru.tahun);
+
+
+    fclose(file);
+    cout << "Buku berhasil ditambahkan!" << endl;
+    return 0;
+}
+
 int main(){
     cout << "== LOGIN ==" << endl;
 	cout << endl;
