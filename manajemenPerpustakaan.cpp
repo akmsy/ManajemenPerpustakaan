@@ -1,11 +1,12 @@
 #include <iostream>
 #include <iomanip>
+#include <stdio.h>
 using namespace std;
 
 struct Buku {
-	string ISBN;
-	string judul;
-	string penulis;
+	char ISBN[20];
+	char judul[100];
+	char penulis[100];
 	int tahun;
 };
 
