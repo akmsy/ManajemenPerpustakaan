@@ -8,6 +8,9 @@ struct Buku {
 	char judul[100];
 	char penulis[100];
 	int tahun;
+	int stok;
+	int status; // 1 = tersedia, 0 = dipinjam
+	Buku *next; // pengait untuk setiap buku
 };
 
 // variabel untuk login
@@ -34,28 +37,74 @@ void tampilanMenuAwal(){
 	system("cls");
 }
 
-//fungsi tambah buku
-int menuTambahBuku(){
+//fungsi 3 tambah buku
+int menuTambahBuku(Buku *head){
+	Buku *bukuBaru = new Buku; //alokasi memori untuk buku baru
 
-    FILE *file = fopen("perpustakaan.txt", "a");
-    Buku bukuBaru; //deklarasi untuk menambah buku baru
-
+    //FILE *file = fopen("perpustakaan.txt", "a");
+    //Buku bukuBaru; //deklarasi untuk menambah buku baru
+ 
     //user input buku baru
-    cout << "Masukkan ISBN: "; cin >> bukuBaru.ISBN;
-    cout << "Masukkan Judul: "; cin >> bukuBaru.judul;
-    cout << "Masukkan Penulis: "; cin >> bukuBaru.penulis;
-    cout << "Masukkan Tahun: "; cin >> bukuBaru.tahun;
+    cout << " === TAMBAH BUKU === " << endl;
+    cout << "Masukkan ISBN: "; cin >> bukuBaru->ISBN;
+    cout << "Masukkan Judul: "; cin >> bukuBaru->judul;
+    cout << "Masukkan Penulis: "; cin >> bukuBaru->penulis;
+    cout << "Masukkan Tahun: "; cin >> bukuBaru->tahun;
+    cout << "Masukkan Stok: "; cin >> bukuBaru->stok;
+    bukuBaru->status = 1; //status buku baru selalu tersedia
+	bukuBaru->next = NULL; //inisialisasi pengait buku baru
+
+	if (head == NULL) {
+		head = bukuBaru;
+	} else {
+		Buku *bantu = head;
+		while (bantu->next != NULL) {
+			bantu = bantu->next;
+		}
+		bantu->next = bukuBaru;
+	}
 
     //memasukkan data buku baru ke dalam file
-    fprintf(file, "%s;%s;%s;%d\n", bukuBaru.ISBN, bukuBaru.judul, bukuBaru.penulis, bukuBaru.tahun);
+    //fprintf(file, "%s;%s;%s;%d\n", bukuBaru->ISBN, bukuBaru->judul, bukuBaru->penulis, bukuBaru->tahun);
 
-
-    fclose(file);
+    //fclose(file);
     cout << "Buku berhasil ditambahkan!" << endl;
-    return 0;
+    return 1;
+}
+
+//fungsi 4 edit buku
+int menuEditBuku(Buku *head){
+	if (head == NULL) {
+		cout << "Buku kosong. Tidak ada buku yang dapat diedit." << endl;
+		return 0;	
+	}
+
+	char target[20];
+	cout << "\n=== EDIT BUKU ===" << endl;
+	cout << "Masukkan ISBN / judul buku yang ingin diedit: "; cin >> target;
+
+	Buku *bantu =head;
+	while (bantu != NULL) {
+		if (strcmp(bantu->ISBN, target) == 0 || strcmp(bantu->judul, target) == 0) {
+			cout << "Buku ditemukan. Masukkan data baru:" << endl;
+
+			cout << "Masukkan Judul: "; cin >> bantu->judul;
+			cout << "Masukkan Penulis: "; cin >> bantu->penulis;
+			cout << "Masukkan Tahun: "; cin >> bantu->tahun;
+			cout << "Masukkan Stok: "; cin >> bantu->stok;
+
+			cout << "Buku berhasil diedit!" << endl;
+			return 1; // jika berhasil edit 
+		}
+		bantu = bantu->next;
+	}
+
+	cout << "Buku dengan ISBN tersebut tidak ditemukan." << endl;
+	return 0; //gagal nemu buku
 }
 
 int main(){
+	Buku *head = NULL; //inisialisasi head untuk linked list buku
     cout << "== LOGIN ==" << endl;
 	cout << endl;
     kesempatan = 3;
@@ -107,10 +156,10 @@ int main(){
 				menuCariBuku();
 				break;
             case '3' : //pilihan menu tambah buku
-				menuTambahBuku();
+				menuTambahBuku(head);
 				break;
 			case '4' :
-				menuEditBuku();
+				menuEditBuku(head);
 				break;
             case '5' :
 				menuHapusBuku();
