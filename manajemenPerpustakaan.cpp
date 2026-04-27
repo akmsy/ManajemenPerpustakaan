@@ -70,7 +70,7 @@ void menuManajemenBuku(){
 	} while (pilih != '0');
 }
 
-//fungsi 3 tambah buku
+//fungsi tambah buku
 int menuTambahBuku(Buku *&head){
 	Buku *bukuBaru = new Buku; //alokasi memori untuk buku baru
 
@@ -105,7 +105,7 @@ int menuTambahBuku(Buku *&head){
     return 1;
 }
 
-//fungsi 4 edit buku
+//fungsi edit buku
 int menuEditBuku(Buku *head){
 	if (head == NULL) {
 		cout << "Buku kosong. Tidak ada buku yang dapat diedit." << endl;
@@ -134,6 +134,35 @@ int menuEditBuku(Buku *head){
 
 	cout << "Buku dengan ISBN tersebut tidak ditemukan." << endl;
 	return 0; //gagal nemu buku
+}
+
+// fungsi sorting buku 
+void menuSortingBuku(){
+	char pilih;
+	do { 
+		cout << "=== SORTING BUKU ===" << endl << endl;
+		cout << "Mau sorting berdasarkan apa?" << endl;
+		cout << "[1] ISBN" << endl;
+		cout << "[2] Judul A-Z" << endl;
+		cout << "[3] Stok Terbesar" << endl;
+		cout << "[0] Kembali" << endl;
+		cout << ">>"; cin >> pilih;
+
+		switch (pilih){
+		case '1':
+			sortISBN();
+			break;
+		case '2':
+			sortJudul();
+			break;
+		case '2':
+			sortStok();
+			break;
+		default : //pilihan menu tidak valid
+			cout << "Masukkan menu dengan BENAR!" << endl << endl;
+			break;
+		}
+	} while(pilih != '0');
 }
 
 // fungsi simpan FILE
@@ -237,11 +266,11 @@ int main(){
             case '2' :
 				menuLihatDaftarBuku();
 				break;
-            case '3' : //pilihan menu tambah buku
-				menuCariBuku(head);
+            case '3' : 
+				menuCariBuku();
 				break;
 			case '4' :
-				menuSortingBuku(head);
+				menuSortingBuku();
 				break;
             case '5' :
 				menuTransaksi();
