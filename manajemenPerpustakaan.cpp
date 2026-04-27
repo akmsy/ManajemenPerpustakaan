@@ -70,6 +70,34 @@ void menuManajemenBuku(){
 	} while (pilih != '0');
 }
 
+// fungsi Lihat Daftar Buku
+void menuLihatDaftarBuku(Buku *head){
+	if (head == NULL){
+		cout << "Data kosong" << endl;
+		return;
+	}
+
+	Buku *bantu = head;
+
+	cout << left << setw(15) << "ISBN"
+		 << setw(25) << "Judul"
+		 << setw(20) << "Penulis"
+		 << setw(6) << "Tahun"
+		 << setw(6) << "Stok"
+		 << setw(10) << "Status" << endl;
+
+	while (bantu != NULL){
+		cout << left << setw(15) << bantu->ISBN
+			<< setw(25) << bantu->judul
+			<< setw(20) << bantu->penulis
+			<< setw(6) << bantu->tahun
+			<< setw(6) << bantu->stok
+			<< setw(10) << bantu->status << endl;
+
+		bantu = bantu->next;
+	}
+}
+
 //fungsi tambah buku
 int menuTambahBuku(Buku *&head){
 	Buku *bukuBaru = new Buku; //alokasi memori untuk buku baru
