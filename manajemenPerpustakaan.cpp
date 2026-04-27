@@ -183,7 +183,7 @@ void menuSortingBuku(){
 		case '2':
 			sortJudul();
 			break;
-		case '2':
+		case '3':
 			sortStok();
 			break;
 		default : //pilihan menu tidak valid
