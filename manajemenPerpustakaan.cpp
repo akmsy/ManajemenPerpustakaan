@@ -243,7 +243,7 @@ void loadFile(){
 }
 
 int main(){
-	Buku *head = NULL; //inisialisasi head untuk linked list buku
+	// Buku *head = NULL; //inisialisasi head untuk linked list buku
     cout << "== LOGIN ==" << endl;
 	cout << endl;
     kesempatan = 3;
