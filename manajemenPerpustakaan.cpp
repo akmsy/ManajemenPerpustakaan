@@ -28,15 +28,46 @@ Buku *head = NULL ;
 //fungsi tampilan menu awal
 void tampilanMenuAwal(){	
 	cout << "=== SISTEM MANAJEMEN PERPUSTAKAAN === " << endl;
-	cout << "[1] Lihat Daftar Buku" << endl;
-	cout << "[2] Cari Buku" << endl;
-	cout << "[3] Tambah Buku" << endl;
-	cout << "[4] Edit Buku" << endl;
-	cout << "[5] Hapus Buku" << endl;
-	cout << "[6] Transaksi" << endl;
+	cout << "[1] Manajemen Buku" << endl;
+	cout << "[2] Lihat Daftar Buku" << endl;
+	cout << "[3] Cari Buku" << endl;
+	cout << "[4] Sorting Buku" << endl;
+	cout << "[5] Transaksi" << endl;
 	cout << "[0] Keluar Program" << endl;
 	cout << ">> "; cin >> optionMenu;
 	system("cls");
+}
+
+// fungsi untuk menu majaemen buku
+void menuManajemenBuku(){
+	char pilih;
+	do {
+		cout << "=== MANAJEMEN BUKU ===" << endl;
+		cout << "[1] Tambah Buku" << endl;
+		cout << "[2] Edit Buku" << endl;
+		cout << "[3] Hapus Buku" << endl;
+		cout << "[4] Tambah Stok" << endl;
+		cout << "[0] Kembali" << endl;
+		cout << ">> "; cin >> pilih;
+		system("cls");
+		switch (pilih) {
+			case '1':
+				menuTambahBuku(head);
+				break;
+			case '2':
+				menuEditBuku(head);
+				break;
+			case '3':
+				menuHapusBuku();
+				break;
+			case '4':
+				menuTambahStok();
+				break;
+			default : //pilihan menu tidak valid
+				cout << "Masukkan menu dengan BENAR!" << endl << endl;
+				break;
+		}
+	} while (pilih != '0');
 }
 
 //fungsi 3 tambah buku
@@ -201,21 +232,18 @@ int main(){
 				cout << "Program Selesai";
 				return 0;
 			case '1' :
-				menuLihatDaftarBuku();
+				menuManajemenBuku();
 				break;
             case '2' :
-				menuCariBuku();
+				menuLihatDaftarBuku();
 				break;
             case '3' : //pilihan menu tambah buku
-				menuTambahBuku(head);
+				menuCariBuku(head);
 				break;
 			case '4' :
-				menuEditBuku(head);
+				menuSortingBuku(head);
 				break;
             case '5' :
-				menuHapusBuku();
-				break;
-            case '6' :
 				menuTransaksi();
 				break;
 			default : //pilihan menu tidak valid
