@@ -23,6 +23,8 @@ char konfirmMenu;
 
 char optionMenu;
 
+Buku *head = NULL ;
+
 //fungsi tampilan menu awal
 void tampilanMenuAwal(){	
 	cout << "=== SISTEM MANAJEMEN PERPUSTAKAAN === " << endl;
@@ -38,7 +40,7 @@ void tampilanMenuAwal(){
 }
 
 //fungsi 3 tambah buku
-int menuTambahBuku(Buku *head){
+int menuTambahBuku(Buku *&head){
 	Buku *bukuBaru = new Buku; //alokasi memori untuk buku baru
 
     //FILE *file = fopen("perpustakaan.txt", "a");
@@ -46,9 +48,9 @@ int menuTambahBuku(Buku *head){
  
     //user input buku baru
     cout << " === TAMBAH BUKU === " << endl;
-    cout << "Masukkan ISBN: "; cin >> bukuBaru->ISBN;
-    cout << "Masukkan Judul: "; cin >> bukuBaru->judul;
-    cout << "Masukkan Penulis: "; cin >> bukuBaru->penulis;
+    cout << "Masukkan ISBN: "; cin.getline(bukuBaru->ISBN, 20);
+    cout << "Masukkan Judul: "; cin.getline(bukuBaru->judul, 100);
+    cout << "Masukkan Penulis: "; cin.getline(bukuBaru->penulis, 100);
     cout << "Masukkan Tahun: "; cin >> bukuBaru->tahun;
     cout << "Masukkan Stok: "; cin >> bukuBaru->stok;
     bukuBaru->status = 1; //status buku baru selalu tersedia
@@ -101,6 +103,55 @@ int menuEditBuku(Buku *head){
 
 	cout << "Buku dengan ISBN tersebut tidak ditemukan." << endl;
 	return 0; //gagal nemu buku
+}
+
+// fungsi simpan FILE
+void simpanFile(){
+	FILE *file = fopen("perpustakaan.txt", "w");
+
+	if (file == NULL){
+		cout << "Gagal membuka file!\n";
+		return;
+	}
+
+	Buku *temp = head;
+
+	while (temp != NULL){
+		fprintf(file, "%s\n", temp->ISBN);
+		fprintf(file, "%s\n", temp->judul);
+		fprintf(file, "%s\n", temp->penulis);
+		fprintf(file, "%d\n", temp->tahun);
+		fprintf(file, "%d\n", temp->stok);
+
+		temp = temp->next;
+	}
+
+	fclose(file);
+}
+
+// fungsi load
+void loadFile(){
+	FILE *file = fopen("perpustakaan.txt", "r");
+
+	if (file == NULL) return;
+
+	while (!feof(file)) {
+		Buku *bukuBaru = new Buku;
+
+		if (fscanf(file, "%[^\n]\n", bukuBaru->ISBN) != 1) {
+			break;
+		} else {
+			fscanf(file, "%[^\n]\n", bukuBaru->judul);
+			fscanf(file, "%[^\n]\n", bukuBaru->penulis);
+			fscanf(file, "%d\n", &bukuBaru->tahun);
+			fscanf(file, "%d\n", &bukuBaru->stok);
+		}
+
+		bukuBaru->next = head;
+		head = bukuBaru;
+	}
+
+	fclose(file);
 }
 
 int main(){
