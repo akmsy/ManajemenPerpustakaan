@@ -25,77 +25,57 @@ char optionMenu;
 
 Buku *head = NULL ;
 
-//fungsi tampilan menu awal
-void tampilanMenuAwal(){	
-	cout << "=== SISTEM MANAJEMEN PERPUSTAKAAN === " << endl;
-	cout << "[1] Manajemen Buku" << endl;
-	cout << "[2] Lihat Daftar Buku" << endl;
-	cout << "[3] Cari Buku" << endl;
-	cout << "[4] Sorting Buku" << endl;
-	cout << "[5] Transaksi" << endl;
-	cout << "[0] Keluar Program" << endl;
-	cout << ">> "; cin >> optionMenu;
-	system("cls");
-}
+// fungsi simpan FILE
+void simpanFile(){
+	FILE *file = fopen("perpustakaan.txt", "w");
 
-// fungsi untuk menu manajemen buku
-void menuManajemenBuku(){
-	char pilih;
-	do {
-		cout << "=== MANAJEMEN BUKU ===" << endl;
-		cout << "[1] Tambah Buku" << endl;
-		cout << "[2] Edit Buku" << endl;
-		cout << "[3] Hapus Buku" << endl;
-		cout << "[0] Kembali" << endl;
-		cout << ">> "; cin >> pilih;
-		system("cls");
-		switch (pilih) {
-			case '1':
-				menuTambahBuku(head);
-				break;
-			case '2':
-				menuEditBuku(head);
-				break;
-			case '3':
-				menuHapusBuku();
-				break;
-			default : //pilihan menu tidak valid
-				cout << "Masukkan menu dengan BENAR!" << endl << endl;
-				break;
-		}
-	} while (pilih != '0');
-}
-
-// fungsi Lihat Daftar Buku
-void menuLihatDaftarBuku(){
-	if (head == NULL){
-		cout << "Data kosong" << endl;
+	if (file == NULL){
+		cout << "Gagal membuka file!\n";
 		return;
 	}
 
-	Buku *bantu = head;
+	Buku *temp = head;
 
-	cout << left << setw(15) << "ISBN"
-		 << setw(25) << "Judul"
-		 << setw(20) << "Penulis"
-		 << setw(6) << "Tahun"
-		 << setw(6) << "Stok"
-		 << setw(10) << "Status" << endl;
+	while (temp != NULL){
+		fprintf(file, "%s\n", temp->ISBN);
+		fprintf(file, "%s\n", temp->judul);
+		fprintf(file, "%s\n", temp->penulis);
+		fprintf(file, "%d\n", temp->tahun);
+		fprintf(file, "%d\n", temp->stok);
 
-	while (bantu != NULL){
-		cout << left << setw(15) << bantu->ISBN
-			<< setw(25) << bantu->judul
-			<< setw(20) << bantu->penulis
-			<< setw(6) << bantu->tahun
-			<< setw(6) << bantu->stok
-			<< setw(10) << bantu->status << endl;
-
-		bantu = bantu->next;
+		temp = temp->next;
 	}
+
+	fclose(file);
+}
+
+// fungsi load
+void loadFile(){
+	FILE *file = fopen("perpustakaan.txt", "r");
+
+	if (file == NULL) return;
+
+	while (!feof(file)) {
+		Buku *bukuBaru = new Buku;
+
+		if (fscanf(file, "%[^\n]\n", bukuBaru->ISBN) != 1) {
+			break;
+		} else {
+			fscanf(file, "%[^\n]\n", bukuBaru->judul);
+			fscanf(file, "%[^\n]\n", bukuBaru->penulis);
+			fscanf(file, "%d\n", &bukuBaru->tahun);
+			fscanf(file, "%d\n", &bukuBaru->stok);
+		}
+
+		bukuBaru->next = head;
+		head = bukuBaru;
+	}
+
+	fclose(file);
 }
 
 //fungsi tambah buku
-int menuTambahBuku(){
+int menuTambahBuku(Buku *&head){
 	Buku *bukuBaru = new Buku; //alokasi memori untuk buku baru
 
     //FILE *file = fopen("perpustakaan.txt", "a");
@@ -103,9 +83,9 @@ int menuTambahBuku(){
  
     //user input buku baru
     cout << " === TAMBAH BUKU === " << endl;
-    cout << "Masukkan ISBN: "; cin.getline(bukuBaru->ISBN, 20);
-    cout << "Masukkan Judul: "; cin.getline(bukuBaru->judul, 100);
-    cout << "Masukkan Penulis: "; cin.getline(bukuBaru->penulis, 100);
+    cout << "Masukkan ISBN: "; cin.ignore(); cin.getline(bukuBaru->ISBN, 20);
+    cout << "Masukkan Judul: "; cin.ignore(); cin.getline(bukuBaru->judul, 100);
+    cout << "Masukkan Penulis: "; cin.ignore(); cin.getline(bukuBaru->penulis, 100);
     cout << "Masukkan Tahun: "; cin >> bukuBaru->tahun;
     cout << "Masukkan Stok: "; cin >> bukuBaru->stok;
     bukuBaru->status = 1; //status buku baru selalu tersedia
@@ -130,7 +110,7 @@ int menuTambahBuku(){
 }
 
 //fungsi edit buku
-int menuEditBuku(){
+int menuEditBuku(Buku *head){
 	if (head == NULL) {
 		cout << "Buku kosong. Tidak ada buku yang dapat diedit." << endl;
 		return 0;	
@@ -180,6 +160,110 @@ int menuEditBuku(){
 	return 0; //gagal nemu buku
 }
 
+//fungsi hapus buku
+int menuHapusBuku(Buku *head){
+	if (head == NULL) {
+		cout << "Buku kosong. Tidak ada buku yang dapat dihapus." << endl;
+		return 0;	
+	}
+
+	char target[20];
+	cout << "\n=== HAPUS BUKU ===" << endl;
+	cout << "Masukkan ISBN / judul buku yang ingin dihapus: "; cin >> target;
+
+	Buku *bantu = head;
+	Buku *prev = NULL;
+
+	while (bantu != NULL) {
+		if (strcmp(bantu->ISBN, target) == 0 || strcmp(bantu->judul, target) == 0) {
+			if (prev == NULL) { // jika buku yang dihapus adalah head
+				head = bantu->next;
+			} else {
+				prev->next = bantu->next;
+			}
+			delete bantu; // menghapus buku dari memori
+			cout << "Buku berhasil dihapus!" << endl;
+			return 1; // jika berhasil hapus
+		}
+		prev = bantu;
+		bantu = bantu->next;
+	}
+
+	cout << "Buku dengan ISBN tersebut tidak ditemukan." << endl;
+	return 0; //gagal nemu buku
+}
+
+//fungsi tampilan menu awal
+void tampilanMenuAwal(){	
+	cout << "=== SISTEM MANAJEMEN PERPUSTAKAAN === " << endl;
+	cout << "[1] Manajemen Buku" << endl;
+	cout << "[2] Lihat Daftar Buku" << endl;
+	cout << "[3] Cari Buku" << endl;
+	cout << "[4] Sorting Buku" << endl;
+	cout << "[5] Transaksi" << endl;
+	cout << "[0] Keluar Program" << endl;
+	cout << ">> "; cin >> optionMenu;
+	system("cls");
+}
+
+// fungsi untuk menu manajemen buku
+void menuManajemenBuku(){
+	char pilih;
+	do {
+		cout << "=== MANAJEMEN BUKU ===" << endl;
+		cout << "[1] Tambah Buku" << endl;
+		cout << "[2] Edit Buku" << endl;
+		cout << "[3] Hapus Buku" << endl;
+		cout << "[0] Kembali" << endl;
+		cout << ">> "; cin >> pilih;
+		system("cls");
+
+		switch (pilih) {
+			case '1':
+				menuTambahBuku(head);
+				break;
+			case '2':
+				menuEditBuku(head);
+				break;
+			case '3':
+				menuHapusBuku(head);
+				break;
+			default : //pilihan menu tidak valid
+				cout << "Masukkan menu dengan BENAR!" << endl << endl;
+				break;
+		}
+	} while (pilih != '0');
+}
+
+// fungsi Lihat Daftar Buku
+void menuLihatDaftarBuku(Buku *head){
+	if (head == NULL){
+		cout << "Data kosong" << endl;
+		return;
+	}
+
+	Buku *bantu = head;
+
+	cout << left << setw(15) << "ISBN"
+		 << setw(25) << "Judul"
+		 << setw(20) << "Penulis"
+		 << setw(6) << "Tahun"
+		 << setw(6) << "Stok"
+		 << setw(10) << "Status" << endl;
+
+	while (bantu != NULL){
+		cout << left << setw(15) << bantu->ISBN
+			<< setw(25) << bantu->judul
+			<< setw(20) << bantu->penulis
+			<< setw(6) << bantu->tahun
+			<< setw(6) << bantu->stok
+			<< setw(10) << bantu->status << endl;
+
+		bantu = bantu->next;
+	}
+}
+
+
 // fungsi sorting buku 
 void menuSortingBuku(){
 	char pilih;
@@ -207,55 +291,6 @@ void menuSortingBuku(){
 			break;
 		}
 	} while(pilih != '0');
-}
-
-// fungsi simpan FILE
-void simpanFile(){
-	FILE *file = fopen("perpustakaan.txt", "w");
-
-	if (file == NULL){
-		cout << "Gagal membuka file!\n";
-		return;
-	}
-
-	Buku *temp = head;
-
-	while (temp != NULL){
-		fprintf(file, "%s\n", temp->ISBN);
-		fprintf(file, "%s\n", temp->judul);
-		fprintf(file, "%s\n", temp->penulis);
-		fprintf(file, "%d\n", temp->tahun);
-		fprintf(file, "%d\n", temp->stok);
-
-		temp = temp->next;
-	}
-
-	fclose(file);
-}
-
-// fungsi load
-void loadFile(){
-	FILE *file = fopen("perpustakaan.txt", "r");
-
-	if (file == NULL) return;
-
-	while (!feof(file)) {
-		Buku *bukuBaru = new Buku;
-
-		if (fscanf(file, "%[^\n]\n", bukuBaru->ISBN) != 1) {
-			break;
-		} else {
-			fscanf(file, "%[^\n]\n", bukuBaru->judul);
-			fscanf(file, "%[^\n]\n", bukuBaru->penulis);
-			fscanf(file, "%d\n", &bukuBaru->tahun);
-			fscanf(file, "%d\n", &bukuBaru->stok);
-		}
-
-		bukuBaru->next = head;
-		head = bukuBaru;
-	}
-
-	fclose(file);
 }
 
 int main(){
@@ -308,7 +343,7 @@ int main(){
 				menuManajemenBuku();
 				break;
             case '2' :
-				menuLihatDaftarBuku();
+				menuLihatDaftarBuku(head);
 				break;
             case '3' : 
 				menuCariBuku();
