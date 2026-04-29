@@ -1,6 +1,7 @@
 #include <iostream>
 #include <iomanip>
 #include <stdio.h>
+#include <cstring>
 using namespace std;
 
 struct Buku {
@@ -20,7 +21,6 @@ string usernameTrue = "admin";
 string passwordTrue = "admin123";
 bool isLogin = false;
 char konfirmMenu;
-
 char optionMenu;
 
 Buku *head = NULL ;
@@ -38,7 +38,7 @@ void tampilanMenuAwal(){
 	system("cls");
 }
 
-// fungsi untuk menu majaemen buku
+// fungsi untuk menu manajemen buku
 void menuManajemenBuku(){
 	char pilih;
 	do {
@@ -46,7 +46,6 @@ void menuManajemenBuku(){
 		cout << "[1] Tambah Buku" << endl;
 		cout << "[2] Edit Buku" << endl;
 		cout << "[3] Hapus Buku" << endl;
-		cout << "[4] Tambah Stok" << endl;
 		cout << "[0] Kembali" << endl;
 		cout << ">> "; cin >> pilih;
 		system("cls");
@@ -60,9 +59,6 @@ void menuManajemenBuku(){
 			case '3':
 				menuHapusBuku();
 				break;
-			case '4':
-				menuTambahStok();
-				break;
 			default : //pilihan menu tidak valid
 				cout << "Masukkan menu dengan BENAR!" << endl << endl;
 				break;
@@ -71,7 +67,7 @@ void menuManajemenBuku(){
 }
 
 // fungsi Lihat Daftar Buku
-void menuLihatDaftarBuku(Buku *head){
+void menuLihatDaftarBuku(){
 	if (head == NULL){
 		cout << "Data kosong" << endl;
 		return;
@@ -99,7 +95,7 @@ void menuLihatDaftarBuku(Buku *head){
 }
 
 //fungsi tambah buku
-int menuTambahBuku(Buku *&head){
+int menuTambahBuku(){
 	Buku *bukuBaru = new Buku; //alokasi memori untuk buku baru
 
     //FILE *file = fopen("perpustakaan.txt", "a");
@@ -134,7 +130,7 @@ int menuTambahBuku(Buku *&head){
 }
 
 //fungsi edit buku
-int menuEditBuku(Buku *head){
+int menuEditBuku(){
 	if (head == NULL) {
 		cout << "Buku kosong. Tidak ada buku yang dapat diedit." << endl;
 		return 0;	
@@ -146,13 +142,33 @@ int menuEditBuku(Buku *head){
 
 	Buku *bantu =head;
 	while (bantu != NULL) {
-		if (strcmp(bantu->ISBN, target) == 0 || strcmp(bantu->judul, target) == 0) {
-			cout << "Buku ditemukan. Masukkan data baru:" << endl;
 
-			cout << "Masukkan Judul: "; cin >> bantu->judul;
-			cout << "Masukkan Penulis: "; cin >> bantu->penulis;
-			cout << "Masukkan Tahun: "; cin >> bantu->tahun;
-			cout << "Masukkan Stok: "; cin >> bantu->stok;
+		if (strcmp(bantu->ISBN, target) == 0 || strcmp(bantu->judul, target) == 0) {
+			cout << "Buku ditemukan. Pilih data yang akan diubah:" << endl;
+			cout << "[1] Judul" << endl;
+			cout << "[2] Penulis" << endl;
+			cout << "[3] Tahun" << endl;
+			cout << "[4] Stok" << endl;
+			cout << ">> "; 
+			int pilihan; cin >> pilihan;
+
+			switch (pilihan) {
+				case 1:
+					cout << "Masukkan Judul baru: "; cin.ignore(); cin.getline(bantu->judul, 100);
+					break;
+				case 2:
+					cout << "Masukkan Penulis baru: "; cin.ignore(); cin.getline(bantu->penulis, 100);
+					break;
+				case 3:
+					cout << "Masukkan Tahun baru: "; cin >> bantu->tahun;
+					break;
+				case 4:
+					cout << "Masukkan Stok baru: "; cin >> bantu->stok;
+					break;
+				default:
+					cout << "Pilihan tidak valid." << endl;
+					return 0;
+			}
 
 			cout << "Buku berhasil diedit!" << endl;
 			return 1; // jika berhasil edit 
@@ -243,7 +259,7 @@ void loadFile(){
 }
 
 int main(){
-	// Buku *head = NULL; //inisialisasi head untuk linked list buku
+	
     cout << "== LOGIN ==" << endl;
 	cout << endl;
     kesempatan = 3;
