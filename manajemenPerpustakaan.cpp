@@ -264,7 +264,7 @@ void menuLihatDaftarBuku(Buku *head){
 	}
 }
 
-// searching buku 
+// searching buku (sequential search)
 void menuCariBuku(){
 	if (head == NULL){
         cout << "Data kosong.\n";
