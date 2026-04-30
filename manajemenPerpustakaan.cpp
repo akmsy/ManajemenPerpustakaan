@@ -20,6 +20,7 @@ int kesempatan;
 string usernameTrue = "admin";
 string passwordTrue = "admin123";
 bool isLogin = false;
+
 char konfirmMenu;
 char optionMenu;
 
@@ -263,6 +264,77 @@ void menuLihatDaftarBuku(Buku *head){
 	}
 }
 
+void swapBuku(Buku *a, Buku *b){
+    char tempStr[100];
+    int tempInt;
+ 
+    strcpy(tempStr,	a->ISBN);	strcpy(a->ISBN,	b->ISBN);   strcpy(b->ISBN, tempStr);
+    strcpy(tempStr, a->judul);	strcpy(a->judul, b->judul);  strcpy(b->judul, tempStr);
+    strcpy(tempStr, a->penulis);strcpy(a->penulis, b->penulis);strcpy(b->penulis, tempStr);
+ 
+    tempInt = a->tahun;	a->tahun  = b->tahun;  b->tahun  = tempInt;
+    tempInt = a->stok;	a->stok   = b->stok;   b->stok   = tempInt;
+    tempInt = a->status;	a->status = b->status; b->status = tempInt;
+}
+
+// sorting by ISBN
+void sortISBN(){
+	if (head == NULL){ cout << "Data kosong.\n"; return; }
+    bool swapped;
+    do {
+        swapped = false;
+        Buku *curr = head;
+        while (curr->next != NULL){
+            if (strcmp(curr->ISBN, curr->next->ISBN) > 0){
+                swapBuku(curr, curr->next);
+                swapped = true;
+            }
+            curr = curr->next;
+        }
+    } while (swapped);
+
+    simpanFile();
+    cout << "Buku berhasil diurutkan berdasarkan ISBN (A-Z)!\n";
+}
+
+// sorting by Judul
+void sortJudul(){
+    if (head == NULL){ cout << "Data kosong.\n"; return; }
+    bool swapped;
+    do {
+        swapped = false;
+        Buku *curr = head;
+        while (curr->next != NULL){
+            if (strcmp(curr->judul, curr->next->judul) > 0){
+                swapBuku(curr, curr->next);
+                swapped = true;
+            }
+            curr = curr->next;
+        }
+    } while (swapped);
+
+    simpanFile();
+	cout << "Buku berhasil diurutkan berdasarkan Judul (A-Z)!\n";
+}
+
+// sorting by Stok
+void sortStok(){
+    if (head == NULL){ cout << "Data kosong.\n"; return; }
+    bool swapped;
+    do {
+        swapped = false;
+        Buku *curr = head;
+        while (curr->next != NULL){
+            if (curr->stok < curr->next->stok){ // descending
+                swapBuku(curr, curr->next);
+                swapped = true;
+            }
+            curr = curr->next;
+        }
+    } while (swapped);
+    simpanFile();
+    cout << "Buku berhasil diurutkan berdasarkan Stok (Terbesar)!\n";
+}
 
 // fungsi sorting buku 
 void menuSortingBuku(){
