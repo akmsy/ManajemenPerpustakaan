@@ -107,6 +107,7 @@ int menuTambahBuku(Buku *&head){
 
     //fclose(file);
     cout << "Buku berhasil ditambahkan!" << endl;
+    simpanFile();
     return 1;
 }
 
@@ -119,7 +120,7 @@ int menuEditBuku(Buku *head){
 
 	char target[20];
 	cout << "\n=== EDIT BUKU ===" << endl;
-	cout << "Masukkan ISBN / judul buku yang ingin diedit: "; cin >> target;
+	cout << "Masukkan ISBN / judul buku: "; cin.getline(target, 20);
 
 	Buku *bantu =head;
 	while (bantu != NULL) {
@@ -152,12 +153,13 @@ int menuEditBuku(Buku *head){
 			}
 
 			cout << "Buku berhasil diedit!" << endl;
+			simpanFile();
 			return 1; // jika berhasil edit 
 		}
 		bantu = bantu->next;
 	}
 
-	cout << "Buku dengan ISBN tersebut tidak ditemukan." << endl;
+	cout << "Buku tidak ditemukan." << endl;
 	return 0; //gagal nemu buku
 }
 
@@ -170,7 +172,7 @@ int menuHapusBuku(Buku *head){
 
 	char target[20];
 	cout << "\n=== HAPUS BUKU ===" << endl;
-	cout << "Masukkan ISBN / judul buku yang ingin dihapus: "; cin >> target;
+	cout << "Masukkan ISBN / judul buku: "; cin.getline(target, 20);
 
 	Buku *bantu = head;
 	Buku *prev = NULL;
@@ -184,13 +186,14 @@ int menuHapusBuku(Buku *head){
 			}
 			delete bantu; // menghapus buku dari memori
 			cout << "Buku berhasil dihapus!" << endl;
+			simpanFile();
 			return 1; // jika berhasil hapus
 		}
 		prev = bantu;
 		bantu = bantu->next;
 	}
 
-	cout << "Buku dengan ISBN tersebut tidak ditemukan." << endl;
+	cout << "Buku tidak ditemukan." << endl;
 	return 0; //gagal nemu buku
 }
 
@@ -401,8 +404,64 @@ void menuSortingBuku(){
 	} while(pilih != '0');
 }
 
+//fungsi transaksi (pinjam & kembali)
+void menuTransaksi(){
+	if (head == NULL){
+		cout << "Data buku kosong.\n";
+		return;
+	}
+
+	char target[100];
+	cout << "\n=== TRANSAKSI BUKU ===" << endl;
+	cin.ignore();
+	cout << "Masukkan ISBN / Judul buku: ";
+	cin.getline(target, 100);
+
+	Buku *bantu = head;
+
+	while (bantu != NULL){
+		if (strcmp(bantu->ISBN, target) == 0 || strcmp(bantu->judul, target) == 0){
+			cout << "Buku ditemukan. Pilih jenis transaksi:" << endl;
+			cout << "[1] Peminjaman Buku" << endl;
+			cout << "[2] Pengembalian Buku" << endl;
+			cout << ">> "; 
+			char pilihan; 
+			cin >> pilihan;
+
+			switch (pilihan){
+				//pinjam
+				case '1':
+					if (bantu->status == 1 && bantu->stok > 0){
+						bantu->stok--;
+						if (bantu->stok == 0) 
+							bantu->status = 0; // jika stok habis, status jadi dipinjam
+							simpanFile();
+							cout << "Buku berhasil dipinjam!" << endl;
+					} else {
+						cout << "Maaf, buku sedang tidak tersedia untuk dipinjam." << endl;
+					}
+					break;
+				//kembali
+				case '2':
+					bantu->stok++;
+					bantu->status = 1; //mengemblikan status menjadi tersedia
+					simpanFile();
+					cout << "Buku berhasil dikembalikan!" << endl;
+					break;
+				default:
+					cout << "Pilihan tidak valid." << endl;
+					break;
+			}
+			return; // jika berhasil transaksi
+		}
+		bantu = bantu->next;
+	}
+
+	cout << "Buku tidak ditemukan." << endl;
+}
+
 int main(){
-	
+
     cout << "== LOGIN ==" << endl;
 	cout << endl;
     kesempatan = 3;
