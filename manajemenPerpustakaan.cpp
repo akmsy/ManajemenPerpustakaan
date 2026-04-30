@@ -264,6 +264,42 @@ void menuLihatDaftarBuku(Buku *head){
 	}
 }
 
+// searching buku 
+void menuCariBuku(){
+	if (head == NULL){
+        cout << "Data kosong.\n";
+        return;
+    }
+ 
+    char target[100];
+    cout << "\n=== CARI BUKU ===" << endl;
+    cin.ignore();
+    cout << "Masukkan ISBN / Judul buku: ";
+    cin.getline(target, 100);
+ 
+	cout <<	endl;
+
+    Buku *bantu = head;
+    bool ditemukan = false;
+ 
+    while (bantu != NULL){
+        if (strcmp(bantu->ISBN, target) == 0 || strcmp(bantu->judul, target) == 0){
+            cout << "=== Detail Buku ===" << endl;
+            cout << "ISBN    : " << bantu->ISBN    << endl;
+            cout << "Judul   : " << bantu->judul   << endl;
+            cout << "Penulis : " << bantu->penulis << endl;
+            cout << "Tahun   : " << bantu->tahun   << endl;
+            cout << "Stok    : " << bantu->stok    << endl;
+            cout << "Status  : " << (bantu->status == 1 ? "Tersedia" : "Dipinjam") << endl;
+            ditemukan = true;
+            break;
+        }
+        bantu = bantu->next;
+    }
+ 
+    if (!ditemukan) cout << "Buku tidak ditemukan.\n";
+}
+
 void swapBuku(Buku *a, Buku *b){
     char tempStr[100];
     int tempInt;
