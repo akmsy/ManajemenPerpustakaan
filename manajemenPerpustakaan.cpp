@@ -214,11 +214,20 @@ int menuHapusBuku(Buku *&head){
 
 	while (bantu != NULL) {
 		if (strcmp(bantu->ISBN, target) == 0 || strcmp(bantu->judul, target) == 0) {
+			// konfirmasi hapus
+			cout << "Apakah Anda yalin akan menghapus buku \"" << bantu->judul << "\"? (y/n): ";
+            char konfirm; cin >> konfirm;
+            if (konfirm != 'y' && konfirm != 'Y') {
+                cout << "Hapus buku dibatalkan.\n";
+                return 0;
+            }
+			
 			if (prev == NULL) { // jika buku yang dihapus adalah head
 				head = bantu->next;
 			} else {
 				prev->next = bantu->next;
 			}
+			
 			delete bantu; // menghapus buku dari memori
 			bantu = NULL; 
 			cout << "Buku berhasil dihapus!" << endl;
