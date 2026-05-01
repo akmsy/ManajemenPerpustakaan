@@ -94,8 +94,8 @@ int menuTambahBuku(Buku *&head){
     //user input buku baru
     cout << " === TAMBAH BUKU === " << endl;
     cout << "Masukkan ISBN: "; cin.ignore(); cin.getline(bukuBaru->ISBN, 20);
-    cout << "Masukkan Judul: "; cin.ignore(); cin.getline(bukuBaru->judul, 100);
-    cout << "Masukkan Penulis: "; cin.ignore(); cin.getline(bukuBaru->penulis, 100);
+    cout << "Masukkan Judul: "; cin.getline(bukuBaru->judul, 100);
+    cout << "Masukkan Penulis: "; cin.getline(bukuBaru->penulis, 100);
     cout << "Masukkan Tahun: "; cin >> bukuBaru->tahun;
     cout << "Masukkan Stok: "; cin >> bukuBaru->stok;
     bukuBaru->status = 1; //status buku baru selalu tersedia
@@ -180,10 +180,10 @@ int menuHapusBuku(Buku *&head){
 		return 0;	
 	}
 
-	char target[20];
+	char target[100];
 	cout << "\n=== HAPUS BUKU ===" << endl;
 	cin.ignore();
-	cout << "Masukkan ISBN / judul buku: "; cin.getline(target, 20);
+	cout << "Masukkan ISBN / judul buku: "; cin.getline(target, 100);
 
 	Buku *bantu = head;
 	Buku *prev = NULL;
