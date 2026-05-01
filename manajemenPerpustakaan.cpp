@@ -466,7 +466,8 @@ void menuTransaksi(){
 }
 
 int main(){
-
+	loadFile();
+	
     cout << "== LOGIN ==" << endl;
 	cout << endl;
     kesempatan = 3;
