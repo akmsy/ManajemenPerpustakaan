@@ -389,7 +389,7 @@ void swapBuku(Buku *a, Buku *b){
  
     tempInt = a->tahun;	a->tahun  = b->tahun;  b->tahun  = tempInt;
     tempInt = a->stok;	a->stok   = b->stok;   b->stok   = tempInt;
-    tempInt = a->status;	a->status = b->status; b->status = tempInt;
+    tempInt = a->status;a->status = b->status; b->status = tempInt;
 }
 
 // sorting by ISBN
@@ -448,7 +448,25 @@ void sortStok(){
         }
     } while (swapped);
     simpanFile();
-    cout << "Buku berhasil diurutkan berdasarkan Stok (Terbesar)!\n";
+    cout << "Buku berhasil diurutkan berdasarkan Stok (Terbesar-Terkecil)!\n";
+}
+
+// sorting by Tahun
+void sortTahun() {
+	if (head == NULL) { cout << "Data kosong.\n"; return; }
+    bool swapped;
+    do {
+        swapped = false;
+        Buku *curr = head;
+        while (curr->next != NULL) {
+            if (curr->tahun > curr->next->tahun) {
+                swapBuku(curr, curr->next); swapped = true;
+            }
+            curr = curr->next;
+        }
+    } while (swapped);
+    simpanFile();
+    cout << "Buku berhasil diurutkan berdasarkan Tahun (Terlama-Terbaru).\n";
 }
 
 // fungsi sorting buku 
@@ -457,11 +475,13 @@ void menuSortingBuku(){
 	do { 
 		cout << "=== SORTING BUKU ===" << endl << endl;
 		cout << "Mau sorting berdasarkan apa?" << endl;
-		cout << "[1] ISBN" << endl;
-		cout << "[2] Judul A-Z" << endl;
+		cout << "[1] ISBN (A-Z)" << endl;
+		cout << "[2] Judul (A-Z)" << endl;
 		cout << "[3] Stok Terbesar" << endl;
+		cout << "[4] Tahun Terlama" << endl;
 		cout << "[0] Kembali" << endl;
 		cout << ">>"; cin >> pilih;
+		system("cls");
 
 		switch (pilih){
 		case '1':
@@ -472,6 +492,9 @@ void menuSortingBuku(){
 			break;
 		case '3':
 			sortStok();
+			break;
+		case '4':
+			sortTahun();
 			break;
 		default : //pilihan menu tidak valid
 			cout << "Masukkan menu dengan BENAR!" << endl << endl;
