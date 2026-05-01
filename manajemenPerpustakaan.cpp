@@ -536,10 +536,11 @@ void menuTransaksi(){
 				case '1':
 					if (bantu->status == 1 && bantu->stok > 0){
 						bantu->stok--;
-						if (bantu->stok == 0) 
+						if (bantu->stok == 0) {
 							bantu->status = 0; // jika stok habis, status jadi dipinjam
 							simpanFile();
 							cout << "Buku berhasil dipinjam!" << endl;
+						}
 					} else {
 						cout << "Maaf, buku sedang tidak tersedia untuk dipinjam." << endl;
 					}
