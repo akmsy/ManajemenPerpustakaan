@@ -244,7 +244,7 @@ int menuHapusBuku(Buku *&head){
 
 //fungsi tampilan menu awal
 void tampilanMenuAwal(){	
-	cout << "=== SISTEM MANAJEMEN PERPUSTAKAAN === " << endl;
+	cout << "\n=== SISTEM MANAJEMEN PERPUSTAKAAN === " << endl;
 	cout << "[1] Manajemen Buku" << endl;
 	cout << "[2] Lihat Daftar Buku" << endl;
 	cout << "[3] Cari Buku" << endl;
@@ -294,16 +294,16 @@ void menuLihatDaftarBuku(Buku *head){
 	Buku *bantu = head;
 
 	cout << "\n                                      === DAFTAR BUKU ===                                      " << endl;
-	cout << setw(92) << setfill('-') << "" << endl;
+	cout << setw(100) << setfill('-') << "" << endl;
 	cout << setfill(' ');
 	cout << left 
 		<< setw(15) << "ISBN"
 		<< setw(25) << "Judul"
-		<< setw(20) << "Penulis"
+		<< setw(28) << "Penulis"
 		<< setw(6) << "Tahun"
 		<< setw(6) << "Stok"
 		<< setw(12) << "Status" << endl;
-	cout << setw(92) << setfill('-') << "" << endl;
+	cout << setw(100) << setfill('-') << "" << endl;
 	cout << setfill(' ');
 
 	int totalJudul = 0;
@@ -312,7 +312,7 @@ void menuLihatDaftarBuku(Buku *head){
 		cout << left 
 			<< setw(15) << bantu->ISBN
 			<< setw(25) << bantu->judul
-			<< setw(20) << bantu->penulis
+			<< setw(28) << bantu->penulis
 			<< setw(6) << bantu->tahun
 			<< setw(6) << bantu->stok
 			<< setw(12) <<(bantu->status == 1 ? "Tersedia" : "Dipinjam") << endl;
@@ -323,7 +323,7 @@ void menuLihatDaftarBuku(Buku *head){
 		bantu = bantu->next;
 	}
 
-	cout << setw(92) << setfill('-') << "" << endl;
+	cout << setw(100) << setfill('-') << "" << endl;
 	cout << setfill(' ');
     cout << "Total Judul: " << totalJudul << " judul buku.\n";
     cout << "Total Stok: " << totalStok << " buku.\n";
@@ -383,8 +383,8 @@ void swapBuku(Buku *a, Buku *b){
     char tempStr[100];
     int tempInt;
  
-    strcpy(tempStr,	a->ISBN);	strcpy(a->ISBN,	b->ISBN);   strcpy(b->ISBN, tempStr);
-    strcpy(tempStr, a->judul);	strcpy(a->judul, b->judul);  strcpy(b->judul, tempStr);
+    strcpy(tempStr,	a->ISBN);	strcpy(a->ISBN,	b->ISBN);      strcpy(b->ISBN, tempStr);
+    strcpy(tempStr, a->judul);	strcpy(a->judul, b->judul);    strcpy(b->judul, tempStr);
     strcpy(tempStr, a->penulis);strcpy(a->penulis, b->penulis);strcpy(b->penulis, tempStr);
  
     tempInt = a->tahun;	a->tahun  = b->tahun;  b->tahun  = tempInt;
@@ -409,7 +409,8 @@ void sortISBN(){
     } while (swapped);
 
     simpanFile();
-    cout << "Buku berhasil diurutkan berdasarkan ISBN (A-Z)!\n";
+	menuLihatDaftarBuku(head);
+    cout << "\nBuku berhasil diurutkan berdasarkan ISBN (A-Z)!\n\n";
 }
 
 // sorting by Judul
@@ -429,7 +430,8 @@ void sortJudul(){
     } while (swapped);
 
     simpanFile();
-	cout << "Buku berhasil diurutkan berdasarkan Judul (A-Z)!\n";
+	menuLihatDaftarBuku(head);
+	cout << "\nBuku berhasil diurutkan berdasarkan Judul (A-Z)!\n\n";
 }
 
 // sorting by Stok
@@ -448,7 +450,8 @@ void sortStok(){
         }
     } while (swapped);
     simpanFile();
-    cout << "Buku berhasil diurutkan berdasarkan Stok (Terbesar-Terkecil)!\n";
+	menuLihatDaftarBuku(head);
+    cout << "\nBuku berhasil diurutkan berdasarkan Stok (Terbesar-Terkecil)!\n\n";
 }
 
 // sorting by Tahun
@@ -466,7 +469,8 @@ void sortTahun() {
         }
     } while (swapped);
     simpanFile();
-    cout << "Buku berhasil diurutkan berdasarkan Tahun (Terlama-Terbaru).\n";
+	menuLihatDaftarBuku(head);
+    cout << "\nBuku berhasil diurutkan berdasarkan Tahun (Terlama-Terbaru).\n\n";
 }
 
 // fungsi sorting buku 
@@ -480,7 +484,7 @@ void menuSortingBuku(){
 		cout << "[3] Stok Terbesar" << endl;
 		cout << "[4] Tahun Terlama" << endl;
 		cout << "[0] Kembali" << endl;
-		cout << ">>"; cin >> pilih;
+		cout << ">> "; cin >> pilih;
 		system("cls");
 
 		switch (pilih){
