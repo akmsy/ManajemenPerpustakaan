@@ -127,10 +127,10 @@ int menuEditBuku(Buku *head){
 		return 0;	
 	}
 
-	char target[20];
+	char target[100];
 	cout << "\n=== EDIT BUKU ===" << endl;
 	cin.ignore();
-	cout << "Masukkan ISBN / judul buku: "; cin.getline(target, 20);
+	cout << "Masukkan ISBN / judul buku: "; cin.getline(target, 100);
 
 	Buku *bantu = head;
 
