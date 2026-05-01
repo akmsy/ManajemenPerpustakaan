@@ -38,12 +38,13 @@ void simpanFile(){
 	Buku *temp = head;
 
 	while (temp != NULL){
-		fprintf(file, "%s\n", temp->ISBN);
-		fprintf(file, "%s\n", temp->judul);
-		fprintf(file, "%s\n", temp->penulis);
-		fprintf(file, "%d\n", temp->tahun);
-		fprintf(file, "%d\n", temp->stok);
-		fprintf(file, "%d\n", temp->status);
+		fprintf(file, "%s|%s|%s|%d|%d|%d\n", // ubah pemisahnya jadi | aja, ada judul buku yg make koma soalnya
+			temp->ISBN,
+                temp->judul,
+                temp->penulis,
+                temp->tahun,
+                temp->stok,
+                temp->status);
 
 		temp = temp->next;
 	}
@@ -56,24 +57,30 @@ void loadFile(){
 	FILE *file = fopen("perpustakaan.txt", "r");
 
 	if (file == NULL) return;
+	Buku *tail = NULL; //buat append n jaga urutan asli
+	Buku *bukuBaru = new Buku;
 
-	while (!feof(file)) {
-		Buku *bukuBaru = new Buku;
+	while (fscanf(file, " %[^|]|%[^|]|%[^|]|%d|%d|%d\n",
+                  bukuBaru->ISBN,
+                  bukuBaru->judul,
+                  bukuBaru->penulis,
+                  &bukuBaru->tahun,
+                  &bukuBaru->stok,
+                  &bukuBaru->status) == 6)
+	{
+		bukuBaru->next = NULL;
+		if (head == NULL) {
+			head = bukuBaru;
+            tail = bukuBaru;
+        } else {
+            tail->next = bukuBaru;
+            tail = bukuBaru;
+        }
 
-		if (fscanf(file, "%[^\n]\n", bukuBaru->ISBN) != 1) {
-			break;
-		} else {
-			fscanf(file, "%[^\n]\n", bukuBaru->judul);
-			fscanf(file, "%[^\n]\n", bukuBaru->penulis);
-			fscanf(file, "%d\n", &bukuBaru->tahun);
-			fscanf(file, "%d\n", &bukuBaru->stok);
-			fscanf(file, "%d\n", &bukuBaru->status);
-		}
-
-		bukuBaru->next = head;
-		head = bukuBaru;
+        bukuBaru = new Buku;
 	}
 
+	delete bukuBaru; // hapus node terakhir yang tidak terpakai
 	fclose(file);
 }
 
