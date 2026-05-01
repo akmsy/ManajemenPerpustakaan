@@ -43,6 +43,7 @@ void simpanFile(){
 		fprintf(file, "%s\n", temp->penulis);
 		fprintf(file, "%d\n", temp->tahun);
 		fprintf(file, "%d\n", temp->stok);
+		fprintf(file, "%d\n", temp->status);
 
 		temp = temp->next;
 	}
@@ -66,6 +67,7 @@ void loadFile(){
 			fscanf(file, "%[^\n]\n", bukuBaru->penulis);
 			fscanf(file, "%d\n", &bukuBaru->tahun);
 			fscanf(file, "%d\n", &bukuBaru->stok);
+			fscanf(file, "%d\n", &bukuBaru->status);
 		}
 
 		bukuBaru->next = head;
@@ -120,11 +122,12 @@ int menuEditBuku(Buku *head){
 
 	char target[20];
 	cout << "\n=== EDIT BUKU ===" << endl;
+	cin.ignore();
 	cout << "Masukkan ISBN / judul buku: "; cin.getline(target, 20);
 
-	Buku *bantu =head;
-	while (bantu != NULL) {
+	Buku *bantu = head;
 
+	while (bantu != NULL) {
 		if (strcmp(bantu->ISBN, target) == 0 || strcmp(bantu->judul, target) == 0) {
 			cout << "Buku ditemukan. Pilih data yang akan diubah:" << endl;
 			cout << "[1] Judul" << endl;
@@ -164,7 +167,7 @@ int menuEditBuku(Buku *head){
 }
 
 //fungsi hapus buku
-int menuHapusBuku(Buku *head){
+int menuHapusBuku(Buku *&head){
 	if (head == NULL) {
 		cout << "Buku kosong. Tidak ada buku yang dapat dihapus." << endl;
 		return 0;	
@@ -172,6 +175,7 @@ int menuHapusBuku(Buku *head){
 
 	char target[20];
 	cout << "\n=== HAPUS BUKU ===" << endl;
+	cin.ignore();
 	cout << "Masukkan ISBN / judul buku: "; cin.getline(target, 20);
 
 	Buku *bantu = head;
@@ -185,6 +189,7 @@ int menuHapusBuku(Buku *head){
 				prev->next = bantu->next;
 			}
 			delete bantu; // menghapus buku dari memori
+			bantu = NULL; 
 			cout << "Buku berhasil dihapus!" << endl;
 			simpanFile();
 			return 1; // jika berhasil hapus
