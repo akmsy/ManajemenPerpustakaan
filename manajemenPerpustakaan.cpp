@@ -319,7 +319,7 @@ void menuLihatDaftarBuku(Buku *head){
 		
 		totalJudul++;
 		totalStok += bantu->stok;
-		
+
 		bantu = bantu->next;
 	}
 
@@ -327,6 +327,12 @@ void menuLihatDaftarBuku(Buku *head){
 	cout << setfill(' ');
     cout << "Total Judul: " << totalJudul << " judul buku.\n";
     cout << "Total Stok: " << totalStok << " buku.\n";
+}
+
+// fungsi buat jadiin string jadi lowercase, jadi nnt pencarian judulnya bisa pake case-insensitive
+void toLowerStr(char *str) {
+    for (int i = 0; str[i]; i++)
+        str[i] = tolower((unsigned char)str[i]);
 }
 
 // searching buku (sequential search)
@@ -342,20 +348,28 @@ void menuCariBuku(){
     cout << "Masukkan ISBN / Judul buku: ";
     cin.getline(target, 100);
  
+	char targetLow[100];
+    strcpy(targetLow, target);
+    toLowerStr(targetLow);
+
 	cout <<	endl;
 
     Buku *bantu = head;
     bool ditemukan = false;
  
     while (bantu != NULL){
-        if (strcmp(bantu->ISBN, target) == 0 || strcmp(bantu->judul, target) == 0){
+		char judulLow[100];
+        strcpy(judulLow, bantu->judul);
+        toLowerStr(judulLow);
+
+        if (strcmp(bantu->ISBN, target) == 0 || strstr(judulLow, targetLow) != NULL){
             cout << "=== Detail Buku ===" << endl;
             cout << "ISBN    : " << bantu->ISBN    << endl;
             cout << "Judul   : " << bantu->judul   << endl;
             cout << "Penulis : " << bantu->penulis << endl;
             cout << "Tahun   : " << bantu->tahun   << endl;
             cout << "Stok    : " << bantu->stok    << endl;
-            cout << "Status  : " << (bantu->status == 1 ? "Tersedia" : "Dipinjam") << endl;
+            cout << "Status  : " << (bantu->status == 1 ? "Tersedia" : "Dipinjam") << endl << endl;
             ditemukan = true;
             break;
         }
