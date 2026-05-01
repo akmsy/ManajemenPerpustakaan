@@ -84,6 +84,16 @@ void loadFile(){
 	fclose(file);
 }
 
+// cek apakah ISBN sudah terdaftar buat validasi duplikat
+bool isbnSudahAda(const char *isbn) {
+    Buku *bantu = head;
+    while (bantu != NULL) {
+        if (strcmp(bantu->ISBN, isbn) == 0) return true;
+        bantu = bantu->next;
+    }
+    return false;
+}
+
 //fungsi tambah buku
 int menuTambahBuku(Buku *&head){
 	Buku *bukuBaru = new Buku; //alokasi memori untuk buku baru
@@ -94,12 +104,26 @@ int menuTambahBuku(Buku *&head){
     //user input buku baru
     cout << " === TAMBAH BUKU === " << endl;
     cout << "Masukkan ISBN: "; cin.ignore(); cin.getline(bukuBaru->ISBN, 20);
+
+	if (isbnSudahAda(bukuBaru->ISBN)){
+		cout << "[!] ISBN sudah terdaftar! Buku tidak dapat ditambahkan.\n";
+        delete bukuBaru;
+        return 0;
+	}
+
     cout << "Masukkan Judul: "; cin.getline(bukuBaru->judul, 100);
     cout << "Masukkan Penulis: "; cin.getline(bukuBaru->penulis, 100);
     cout << "Masukkan Tahun: "; cin >> bukuBaru->tahun;
     cout << "Masukkan Stok: "; cin >> bukuBaru->stok;
     bukuBaru->status = 1; //status buku baru selalu tersedia
 	bukuBaru->next = NULL; //inisialisasi pengait buku baru
+
+	// error handling stok negatif atau 0
+    if (bukuBaru->stok < 1) {
+        cout << "[!] Stok buku harus >= 1! Buku tidak dapat ditambahkan.\n";
+        delete bukuBaru;
+        return 0;
+    }
 
 	if (head == NULL) {
 		head = bukuBaru;
