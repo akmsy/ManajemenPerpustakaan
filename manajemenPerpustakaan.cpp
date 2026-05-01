@@ -227,7 +227,7 @@ int menuHapusBuku(Buku *&head){
 			} else {
 				prev->next = bantu->next;
 			}
-			
+
 			delete bantu; // menghapus buku dari memori
 			bantu = NULL; 
 			cout << "Buku berhasil dihapus!" << endl;
@@ -293,23 +293,40 @@ void menuLihatDaftarBuku(Buku *head){
 
 	Buku *bantu = head;
 
-	cout << left << setw(15) << "ISBN"
-		 << setw(25) << "Judul"
-		 << setw(20) << "Penulis"
-		 << setw(6) << "Tahun"
-		 << setw(6) << "Stok"
-		 << setw(10) << "Status" << endl;
+	cout << "\n                                      === DAFTAR BUKU ===                                      " << endl;
+	cout << setw(92) << setfill('-') << "" << endl;
+	cout << setfill(' ');
+	cout << left 
+		<< setw(15) << "ISBN"
+		<< setw(25) << "Judul"
+		<< setw(20) << "Penulis"
+		<< setw(6) << "Tahun"
+		<< setw(6) << "Stok"
+		<< setw(12) << "Status" << endl;
+	cout << setw(92) << setfill('-') << "" << endl;
+	cout << setfill(' ');
 
+	int totalJudul = 0;
+	int totalStok = 0;
 	while (bantu != NULL){
-		cout << left << setw(15) << bantu->ISBN
+		cout << left 
+			<< setw(15) << bantu->ISBN
 			<< setw(25) << bantu->judul
 			<< setw(20) << bantu->penulis
 			<< setw(6) << bantu->tahun
 			<< setw(6) << bantu->stok
-			<< setw(10) << bantu->status << endl;
-
+			<< setw(12) <<(bantu->status == 1 ? "Tersedia" : "Dipinjam") << endl;
+		
+		totalJudul++;
+		totalStok += bantu->stok;
+		
 		bantu = bantu->next;
 	}
+
+	cout << setw(92) << setfill('-') << "" << endl;
+	cout << setfill(' ');
+    cout << "Total Judul: " << totalJudul << " judul buku.\n";
+    cout << "Total Stok: " << totalStok << " buku.\n";
 }
 
 // searching buku (sequential search)
