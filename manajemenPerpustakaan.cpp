@@ -190,6 +190,14 @@ int menuEditBuku(Buku *head){
 					return 0;
 			}
 
+			// konfirmasi unutk simpan perubahan
+			cout << endl << "Yakin ingin menyimpan perubahan? (y/n): ";
+			char konfirm; cin >> konfirm;
+			if (konfirm != 'y' && konfirm != 'Y'){
+				cout << "Perubahan dibatalkan!" << endl;
+				return 0;
+			}
+
 			cout << "Buku berhasil diedit!" << endl;
 			simpanFile();
 			return 1; // jika berhasil edit 
