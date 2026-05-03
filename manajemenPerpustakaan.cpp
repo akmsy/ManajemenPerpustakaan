@@ -2,6 +2,7 @@
 #include <iomanip>
 #include <stdio.h>
 #include <cstring>
+
 using namespace std;
 
 struct Buku {
@@ -312,13 +313,14 @@ void menuLihatDaftarBuku(Buku *head){
 	int totalJudul = 0;
 	int totalStok = 0;
 	while (bantu != NULL){
+	
 		cout << left 
 			<< setw(15) << bantu->ISBN
 			<< setw(25) << bantu->judul
 			<< setw(28) << bantu->penulis
 			<< setw(6) << bantu->tahun
 			<< setw(6) << bantu->stok
-			<< setw(12) <<(bantu->status == 1 ? "Tersedia" : "Dipinjam") << endl;
+			<< setw(12) << "Tersedia: " << bantu->stok << " |Dipinjam: " << bantu->status <<endl; //status
 		
 		totalJudul++;
 		totalStok += bantu->stok;
@@ -372,7 +374,7 @@ void menuCariBuku(){
             cout << "Penulis : " << bantu->penulis << endl;
             cout << "Tahun   : " << bantu->tahun   << endl;
             cout << "Stok    : " << bantu->stok    << endl;
-            cout << "Status  : " << (bantu->status == 1 ? "Tersedia" : "Dipinjam") << endl << endl;
+            cout << "Status  : " << "Tersedia: " << bantu->stok << " | Dipinjam: " << bantu->status << endl << endl;
             ditemukan = true;
             break;
         }
@@ -540,9 +542,8 @@ void menuTransaksi(){
 				case '1': {
 					cout << "Berapa buku yang ingin dipinjam(" << bantu->stok << ")? "; cin >> jumlahPinjam;
 					if (bantu->stok >= jumlahPinjam){
-						bantu->stok -= jumlahPinjam;
-						bantu->status += jumlahPinjam;
-						if (bantu->stok == 0) 
+						bantu->stok -= jumlahPinjam; // kurangi stok sesuai jumlah yang dipinjam
+						bantu->status += jumlahPinjam; // tambah status dipinjam sesuai jumlah yang dipinjam
 						simpanFile();
 						cout << "Anda berhasil meminjam buku " << bantu->judul << endl;
 						cout << "Sisa stok buku " << bantu->judul << " sekarang: " << bantu->stok << endl;
@@ -553,9 +554,9 @@ void menuTransaksi(){
 				}
 				//kembali
 				case '2':{
-					cout << "Berapa buku yang ingin dikembalikan? "; cin >> jumlahKembali;
-					bantu->stok += jumlahKembali;
-					bantu->status -= jumlahKembali; //mengemblikan status menjadi tersedia
+					cout << "Berapa buku yang ingin dikembalikan(" << bantu->status << ")? "; cin >> jumlahKembali;
+					bantu->stok += jumlahKembali; // tambah stok sesuai jumlah yang dikembalikan
+					bantu->status -= jumlahKembali; // kurangi status dipinjam sesuai jumlah yang dikembalikan
 					simpanFile();
 					cout << "Buku " << bantu->judul << " berhasil dikembalikan!" << endl;
 					if (jumlahKembali < jumlahPinjam) {
