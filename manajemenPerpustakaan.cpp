@@ -26,6 +26,9 @@ char optionMenu;
 
 Buku *head = NULL ;
 
+//transaksi
+int jumlahPinjam = 0; 
+int jumlahKembali = 0;
 // fungsi simpan FILE
 void simpanFile(){
 	FILE *file = fopen("perpustakaan.txt", "w");
@@ -531,30 +534,43 @@ void menuTransaksi(){
 			char pilihan; 
 			cin >> pilihan;
 
+
 			switch (pilihan){
 				//pinjam
-				case '1':
-					if (bantu->status == 1 && bantu->stok > 0){
-						bantu->stok--;
-						if (bantu->stok == 0) {
-							bantu->status = 0; // jika stok habis, status jadi dipinjam
-							simpanFile();
-							cout << "Buku berhasil dipinjam!" << endl;
-						}
-					} else {
-						cout << "Maaf, buku sedang tidak tersedia untuk dipinjam." << endl;
+				case '1': {
+					cout << "Berapa buku yang ingin dipinjam(" << bantu->stok << ")? "; cin >> jumlahPinjam;
+					if (bantu->stok >= jumlahPinjam){
+						bantu->stok -= jumlahPinjam;
+						bantu->status += jumlahPinjam;
+						if (bantu->stok == 0) 
+						simpanFile();
+						cout << "Anda berhasil meminjam buku " << bantu->judul << endl;
+						cout << "Sisa stok buku " << bantu->judul << " sekarang: " << bantu->stok << endl;
+					}else {
+						cout << "Maaf, jumlah buku yang diminta melebihi stok yang tersedia." << endl;
 					}
 					break;
+				}
 				//kembali
-				case '2':
-					bantu->stok++;
-					bantu->status = 1; //mengemblikan status menjadi tersedia
+				case '2':{
+					cout << "Berapa buku yang ingin dikembalikan? "; cin >> jumlahKembali;
+					bantu->stok += jumlahKembali;
+					bantu->status -= jumlahKembali; //mengemblikan status menjadi tersedia
 					simpanFile();
-					cout << "Buku berhasil dikembalikan!" << endl;
+					cout << "Buku " << bantu->judul << " berhasil dikembalikan!" << endl;
+					if (jumlahKembali < jumlahPinjam) {
+						cout << "Anda masih meminjam " << (jumlahPinjam - jumlahKembali) << " buku " << bantu->judul << ".\n";
+					} else if (jumlahKembali > jumlahPinjam) {
+						cout << "Anda mengembalikan lebih banyak dari yang dipinjam. Stok buku " << bantu->judul << " sekarang: " << bantu->stok << endl;
+					} else {
+						cout << "Semua buku " << bantu->judul << " sudah dikembalikan. Stok buku sekarang: " << bantu->stok << endl;
+					}
 					break;
+				}
 				default:
 					cout << "Pilihan tidak valid." << endl;
 					break;
+				
 			}
 			return; // jika berhasil transaksi
 		}
