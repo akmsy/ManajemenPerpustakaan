@@ -560,10 +560,18 @@ void menuTransaksi(){
 	cout << "Masukkan ISBN / Judul buku: ";
 	cin.getline(target, 100);
 
+	char targetLow[100];
+    strcpy(targetLow, target);
+    toLowerStr(targetLow);
+
 	Buku *bantu = head;
 
 	while (bantu != NULL){
-		if (strcmp(bantu->ISBN, target) == 0 || strcmp(bantu->judul, target) == 0){
+		char judulLow[100];
+        strcpy(judulLow, bantu->judul);
+        toLowerStr(judulLow);
+
+		if (strcmp(bantu->ISBN, target) == 0 || strcmp(judulLow, targetLow) == 0){
 			cout << "Buku ditemukan. Pilih jenis transaksi:" << endl;
 			cout << "[1] Peminjaman Buku" << endl;
 			cout << "[2] Pengembalian Buku" << endl;
@@ -577,15 +585,19 @@ void menuTransaksi(){
 				case '1': {
 					cout << "Berapa buku yang dipinjam(" << bantu->stok << ")? "; cin >> jumlahPinjam;
 					cout << "Nama Peminjam : "; cin >> nama;
-					if (bantu->stok >= jumlahPinjam){
+					if (jumlahPinjam <= 0){
+						cout << "Maaf, jumlah buku yang dipinjam minimal 1." << endl;
+						return;
+					} else if (bantu->stok >= jumlahPinjam){
 						bantu->stok -= jumlahPinjam; // kurangi stok sesuai jumlah yang dipinjam
 						bantu->status += jumlahPinjam; // tambah status dipinjam sesuai jumlah yang dipinjam
 						simpanFile();
 						catatRiwayat(bantu->judul, "DIPINJAM", jumlahPinjam, nama);
 						cout << "Anda berhasil meminjam buku " << bantu->judul << endl;
 						cout << "Sisa stok buku " << bantu->judul << " sekarang: " << bantu->stok << endl;
-					}else {
+					} else {
 						cout << "Maaf, jumlah buku yang diminta melebihi stok yang tersedia." << endl;
+						return;
 					}
 					break;
 				}
@@ -596,9 +608,12 @@ void menuTransaksi(){
 					if (bantu->status == 0) {
 						cout << "Anda tidak meminjam buku ini. Tidak ada yang perlu dikembalikan.\n";
 						return;
+					} else if (jumlahKembali <= 0) {
+						cout << "Maaf, jumlah buku yang dikembalikan minimal 1." << endl;
+						return;
 					} else if (jumlahKembali > bantu->status) {
-						cout << "Anda mengembalikan lebih banyak dari yang dipinjam. Hanya " << bantu->status << " buku yang akan dikembalikan.\n";
-						jumlahKembali = bantu->status; // batasi jumlah kembali maksimal sesuai yang dipinjam
+						cout << "Gagal mengembalikan, karena jumlah yang dikembalikan lebih banyak dari yang dipinjam.\n";
+						return;
 					}
 
 					bantu->stok += jumlahKembali; // tambah stok sesuai jumlah yang dikembalikan
