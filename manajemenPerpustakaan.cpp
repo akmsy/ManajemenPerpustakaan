@@ -2,6 +2,7 @@
 #include <iomanip>
 #include <stdio.h>
 #include <cstring>
+#include <ctime>
 
 using namespace std;
 
@@ -13,6 +14,15 @@ struct Buku {
 	int stok;
 	int status; // 1 = tersedia, 0 = dipinjam
 	Buku *next; // pengait untuk setiap buku
+};
+
+struct Riwayat {
+    char waktu[25];
+	char aksi[15];
+	char judul[100]; 
+	char nama[100];
+    int jumlah;
+    Riwayat *next;
 };
 
 // variabel untuk login
@@ -262,6 +272,7 @@ void tampilanMenuAwal(){
 	cout << "[3] Cari Buku" << endl;
 	cout << "[4] Sorting Buku" << endl;
 	cout << "[5] Transaksi" << endl;
+	cout << "[6] Riwayat Transaksi" << endl;
 	cout << "[0] Keluar Program" << endl;
 	cout << ">> "; cin >> optionMenu;
 	system("cls");
@@ -520,6 +531,21 @@ void menuSortingBuku(){
 	} while(pilih != '0');
 }
 
+// fungsi pencatatan riwayat
+void catatRiwayat(const char *judul, const char *aksi, int jumlah, const char *nama) {
+	FILE *file = fopen("riwayat.txt", "a");
+	if (file == NULL) return;
+ 
+	// ambil waktu pas melakukan transaksi
+	time_t now = time(0);
+	struct tm *t = localtime(&now);
+	char waktu[25];
+	strftime(waktu, sizeof(waktu), "%d/%m/%Y %H:%M:%S", t);
+ 
+	fprintf(file, "%s|%s|%s|%d|%s\n", waktu, aksi, judul, jumlah, nama);
+	fclose(file);
+}
+
 //fungsi transaksi (pinjam & kembali)
 void menuTransaksi(){
 	if (head == NULL){
@@ -528,6 +554,7 @@ void menuTransaksi(){
 	}
 
 	char target[100];
+	char nama[100];
 	cout << "\n=== TRANSAKSI BUKU ===" << endl;
 	cin.ignore();
 	cout << "Masukkan ISBN / Judul buku: ";
@@ -548,11 +575,13 @@ void menuTransaksi(){
 			switch (pilihan){
 				//pinjam
 				case '1': {
-					cout << "Berapa buku yang ingin dipinjam(" << bantu->stok << ")? "; cin >> jumlahPinjam;
+					cout << "Berapa buku yang dipinjam(" << bantu->stok << ")? "; cin >> jumlahPinjam;
+					cout << "Nama Peminjam : "; cin >> nama;
 					if (bantu->stok >= jumlahPinjam){
 						bantu->stok -= jumlahPinjam; // kurangi stok sesuai jumlah yang dipinjam
 						bantu->status += jumlahPinjam; // tambah status dipinjam sesuai jumlah yang dipinjam
 						simpanFile();
+						catatRiwayat(bantu->judul, "DIPINJAM", jumlahPinjam, nama);
 						cout << "Anda berhasil meminjam buku " << bantu->judul << endl;
 						cout << "Sisa stok buku " << bantu->judul << " sekarang: " << bantu->stok << endl;
 					}else {
@@ -560,9 +589,10 @@ void menuTransaksi(){
 					}
 					break;
 				}
-				//kembali
+				//kembali 
 				case '2':{
-					cout << "Berapa buku yang ingin dikembalikan(" << bantu->status << ")? "; cin >> jumlahKembali;
+					cout << "Berapa buku yang dikembalikan(" << bantu->status << ")? "; cin >> jumlahKembali;
+					cout << "Nama Pengembali : "; cin >> nama;
 					if (bantu->status == 0) {
 						cout << "Anda tidak meminjam buku ini. Tidak ada yang perlu dikembalikan.\n";
 						return;
@@ -574,6 +604,7 @@ void menuTransaksi(){
 					bantu->stok += jumlahKembali; // tambah stok sesuai jumlah yang dikembalikan
 					bantu->status -= jumlahKembali; // kurangi status dipinjam sesuai jumlah yang dikembalikan
 					simpanFile();
+					catatRiwayat(bantu->judul, "DIKEMBALIKAN", jumlahKembali, nama);
 					cout << "Buku " << bantu->judul << " berhasil dikembalikan!" << endl;
 					if (jumlahKembali < jumlahPinjam) {
 						cout << "Anda masih meminjam " << (jumlahPinjam - jumlahKembali) << " buku " << bantu->judul << ".\n";
@@ -593,6 +624,96 @@ void menuTransaksi(){
 	}
 
 	cout << "Buku tidak ditemukan." << endl;
+}
+
+void menuLihatRiwayatTransaksi() {
+	FILE *file = fopen("riwayat.txt", "r");
+	if (file == NULL) {
+		cout << "Belum ada riwayat transaksi.\n";
+		return;
+	}
+
+	cout << "\n                              === RIWAYAT TRANSAKSI ===                              " << endl;
+	cout << setw(100) << setfill('-') << "" << endl;
+	cout << setfill(' ');
+
+	cout << left
+		 << setw(22) << "Waktu"
+		 << setw(15) << "Status"
+		 << setw(30) << "Judul"
+		 << setw(10) << "Jumlah"
+		 << setw(23) << "Nama" << endl;
+
+	cout << setw(100) << setfill('-') << "" << endl;
+	cout << setfill(' ');
+
+	char line[400];
+	int total = 0;
+	int totalPinjam = 0;
+	int totalKembali = 0;
+
+	while (fgets(line, sizeof(line), file)) {
+
+		// buat hapus enter
+		int len = strlen(line);
+		if (len > 0 && line[len-1] == '\n') {
+			line[len-1] = '\0';
+		}
+
+		// parsing
+		char waktu[25] = "", aksi[15] = "", judul[100] = "", jml[10] = "", nama[100] = "";
+		char tmp[400];
+		strcpy(tmp, line);
+
+		char *tok = strtok(tmp, "|");
+		if (tok) {
+			strcpy(waktu, tok);
+		}
+
+		tok = strtok(NULL, "|");
+		if (tok) {
+			strcpy(aksi, tok);
+		}
+
+		tok = strtok(NULL, "|");
+		if (tok) {
+			strcpy(judul, tok);
+		}
+
+		tok = strtok(NULL, "|");
+		if (tok) {
+			strcpy(jml, tok);
+		}
+
+		tok = strtok(NULL, "|");
+		if (tok) {
+			strcpy(nama, tok);
+		}
+
+		cout << left
+			 << setw(22) << waktu
+			 << setw(15) << aksi
+			 << setw(30) << judul
+			 << setw(10) << jml
+			 << setw(23) << nama << endl;
+
+		total++;
+
+		if (strcmp(aksi, "DIPINJAM") == 0) {
+			totalPinjam++;
+		} else if (strcmp(aksi, "DIKEMBALIKAN") == 0) {
+			totalKembali++;
+		}
+	}
+
+	cout << setw(100) << setfill('-') << "" << endl;
+	cout << setfill(' ');
+
+	cout << "Total Transaksi : " << total << endl;
+	cout << "Total Pinjam    : " << totalPinjam << endl;
+	cout << "Total Kembali   : " << totalKembali << endl;
+
+	fclose(file);
 }
 
 int main(){
@@ -656,6 +777,9 @@ int main(){
 				break;
             case '5' :
 				menuTransaksi();
+				break;
+            case '6' :
+				menuLihatRiwayatTransaksi();
 				break;
 			default : //pilihan menu tidak valid
 				cout << "Masukkan menu dengan BENAR!" << endl << endl;
