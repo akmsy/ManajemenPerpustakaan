@@ -108,6 +108,12 @@ bool isbnSudahAda(const char *isbn) {
     return false;
 }
 
+// fungsi buat jadiin string jadi lowercase, jadi nnt pencarian judulnya bisa pake case-insensitive
+void toLowerStr(char *str) {
+    for (int i = 0; str[i]; i++)
+        str[i] = tolower((unsigned char)str[i]);
+}
+
 //fungsi tambah buku
 int menuTambahBuku(Buku *&head){
 	Buku *bukuBaru = new Buku; //alokasi memori untuk buku baru
@@ -169,11 +175,17 @@ int menuEditBuku(Buku *head){
 	cout << "\n=== EDIT BUKU ===" << endl;
 	cin.ignore();
 	cout << "Masukkan ISBN / judul buku: "; cin.getline(target, 100);
+	char targetLow[100];
+	strcpy(targetLow, target);
+	toLowerStr(targetLow);
 
 	Buku *bantu = head;
 
 	while (bantu != NULL) {
-		if (strcmp(bantu->ISBN, target) == 0 || strcmp(bantu->judul, target) == 0) {
+		char judulLow[100];
+		strcpy(judulLow, bantu->judul);
+		toLowerStr(judulLow);
+		if (strcmp(bantu->ISBN, target) == 0 || strcmp(judulLow, targetLow) == 0) {
 			cout << "Buku ditemukan. Pilih data yang akan diubah:" << endl;
 			cout << "[1] Judul" << endl;
 			cout << "[2] Penulis" << endl;
@@ -230,12 +242,18 @@ int menuHapusBuku(Buku *&head){
 	cout << "\n=== HAPUS BUKU ===" << endl;
 	cin.ignore();
 	cout << "Masukkan ISBN / judul buku: "; cin.getline(target, 100);
+	char targetLow[100];
+	strcpy(targetLow, target);
+	toLowerStr(targetLow);
 
 	Buku *bantu = head;
 	Buku *prev = NULL;
 
 	while (bantu != NULL) {
-		if (strcmp(bantu->ISBN, target) == 0 || strcmp(bantu->judul, target) == 0) {
+		char judulLow[100];
+		strcpy(judulLow, bantu->judul);
+		toLowerStr(judulLow);
+		if (strcmp(bantu->ISBN, target) == 0 || strcmp(judulLow, targetLow) == 0) {
 			// konfirmasi hapus
 			cout << "Apakah Anda yakin akan menghapus buku \"" << bantu->judul << "\"? (y/n): ";
             char konfirm; cin >> konfirm;
@@ -351,12 +369,6 @@ void menuLihatDaftarBuku(Buku *head){
 	cout << setfill(' ');
     cout << "Total Judul: " << totalJudul << " judul buku.\n";
     cout << "Total Stok: " << totalStok << " buku.\n";
-}
-
-// fungsi buat jadiin string jadi lowercase, jadi nnt pencarian judulnya bisa pake case-insensitive
-void toLowerStr(char *str) {
-    for (int i = 0; str[i]; i++)
-        str[i] = tolower((unsigned char)str[i]);
 }
 
 // searching buku (sequential search)
