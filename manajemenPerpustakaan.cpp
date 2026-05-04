@@ -563,15 +563,21 @@ void menuTransaksi(){
 				//kembali
 				case '2':{
 					cout << "Berapa buku yang ingin dikembalikan(" << bantu->status << ")? "; cin >> jumlahKembali;
+					if (bantu->status == 0) {
+						cout << "Anda tidak meminjam buku ini. Tidak ada yang perlu dikembalikan.\n";
+						return;
+					} else if (jumlahKembali > bantu->status) {
+						cout << "Anda mengembalikan lebih banyak dari yang dipinjam. Hanya " << bantu->status << " buku yang akan dikembalikan.\n";
+						jumlahKembali = bantu->status; // batasi jumlah kembali maksimal sesuai yang dipinjam
+					}
+
 					bantu->stok += jumlahKembali; // tambah stok sesuai jumlah yang dikembalikan
 					bantu->status -= jumlahKembali; // kurangi status dipinjam sesuai jumlah yang dikembalikan
 					simpanFile();
 					cout << "Buku " << bantu->judul << " berhasil dikembalikan!" << endl;
 					if (jumlahKembali < jumlahPinjam) {
 						cout << "Anda masih meminjam " << (jumlahPinjam - jumlahKembali) << " buku " << bantu->judul << ".\n";
-					} else if (jumlahKembali > jumlahPinjam) {
-						cout << "Anda mengembalikan lebih banyak dari yang dipinjam. Stok buku " << bantu->judul << " sekarang: " << bantu->stok << endl;
-					} else {
+					}else {
 						cout << "Semua buku " << bantu->judul << " sudah dikembalikan. Stok buku sekarang: " << bantu->stok << endl;
 					}
 					break;
