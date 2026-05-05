@@ -7,20 +7,13 @@
 using namespace std;
 
 struct Buku {
-	char ISBN[20];
-	char judul[100];
-	char penulis[100];
-	int tahun;
-	int stok;
-	int status; // untuk menyimpan jumlah yang dipinjam
+	char ISBN[20], judul[100], penulis[100];
+	int tahun, stok, status; // status untuk menyimpan jumlah yang dipinjam
 	Buku *next; // pengait untuk setiap buku
 };
 
 struct Riwayat {
-    char waktu[25];
-	char aksi[15];
-	char judul[100]; 
-	char nama[100];
+    char waktu[25], aksi[15], judul[100], nama[100];
     int jumlah;
     Riwayat *next;
 };
@@ -32,8 +25,7 @@ string usernameTrue = "admin";
 string passwordTrue = "admin123";
 bool isLogin = false;
 
-char konfirmMenu;
-char optionMenu;
+char konfirmMenu, optionMenu;
 
 Buku *head = NULL ;
 
@@ -238,11 +230,10 @@ int menuHapusBuku(Buku *&head){
 		return 0;	
 	}
 
-	char target[100];
+	char target[100], targetLow[100];
 	cout << "\n=== HAPUS BUKU ===" << endl;
 	cin.ignore();
 	cout << "Masukkan ISBN / judul buku: "; cin.getline(target, 100);
-	char targetLow[100];
 	strcpy(targetLow, target);
 	toLowerStr(targetLow);
 
