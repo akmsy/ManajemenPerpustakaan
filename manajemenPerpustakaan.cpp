@@ -12,7 +12,7 @@ struct Buku {
 	char penulis[100];
 	int tahun;
 	int stok;
-	int status; // 1 = tersedia, 0 = dipinjam
+	int status; // untuk menyimpan jumlah yang dipinjam
 	Buku *next; // pengait untuk setiap buku
 };
 
@@ -135,7 +135,7 @@ int menuTambahBuku(Buku *&head){
     cout << "Masukkan Penulis: "; cin.getline(bukuBaru->penulis, 100);
     cout << "Masukkan Tahun: "; cin >> bukuBaru->tahun;
     cout << "Masukkan Stok: "; cin >> bukuBaru->stok;
-    bukuBaru->status = 1; //status buku baru selalu tersedia
+    bukuBaru->status = 0; //status buku baru belum dipinjam
 	bukuBaru->next = NULL; //inisialisasi pengait buku baru
 
 	// error handling stok negatif atau 0
