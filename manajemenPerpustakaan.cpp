@@ -395,12 +395,14 @@ void menuCariBuku(){
 
         if (strcmp(bantu->ISBN, target) == 0 || strstr(judulLow, targetLow) != NULL){
             cout << "=== Detail Buku ===" << endl;
-            cout << "ISBN    : " << bantu->ISBN    << endl;
-            cout << "Judul   : " << bantu->judul   << endl;
-            cout << "Penulis : " << bantu->penulis << endl;
-            cout << "Tahun   : " << bantu->tahun   << endl;
-            cout << "Stok    : " << bantu->stok    << endl;
-            cout << "Status  : " << "Tersedia: " << bantu->stok << " | Dipinjam: " << bantu->status << endl << endl;
+            cout << "ISBN     : " << bantu->ISBN    << endl;
+            cout << "Judul    : " << bantu->judul   << endl;
+            cout << "Penulis  : " << bantu->penulis << endl;
+            cout << "Tahun    : " << bantu->tahun   << endl;
+            // cout << "Stok    : " << bantu->stok    << endl;
+            cout << "Tersedia : " << bantu->stok    << endl;
+            cout << "Dipinjam : " << bantu->status    << endl << endl;
+            // cout << "Status  : " << "Tersedia: " << bantu->stok << " | Dipinjam: " << bantu->status << endl << endl;
             ditemukan = true;
             break;
         }
