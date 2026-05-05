@@ -342,8 +342,10 @@ void menuLihatDaftarBuku(Buku *head){
 		<< setw(25) << "Judul"
 		<< setw(28) << "Penulis"
 		<< setw(6) << "Tahun"
-		<< setw(6) << "Stok"
-		<< setw(12) << "Status" << endl;
+		// << setw(6) << "Stok"
+		// << setw(12) << "Status" << endl;
+		<< setw(12) << "Tersedia"
+		<< setw(12) << "Dipinjam" << endl;
 	cout << setw(100) << setfill('-') << "" << endl;
 	cout << setfill(' ');
 
@@ -356,8 +358,10 @@ void menuLihatDaftarBuku(Buku *head){
 			<< setw(25) << bantu->judul
 			<< setw(28) << bantu->penulis
 			<< setw(6) << bantu->tahun
-			<< setw(6) << bantu->stok
-			<< setw(12) << "Tersedia: " << bantu->stok << " |Dipinjam: " << bantu->status <<endl; //status
+			// << setw(6) << bantu->stok
+			// << setw(12) << "Tersedia: " << bantu->stok << " |Dipinjam: " << bantu->status <<endl; //status
+			<< setw(12) << bantu->stok
+			<< setw(12) << bantu->status << endl; 
 		
 		totalJudul++;
 		totalStok += bantu->stok;
@@ -368,7 +372,7 @@ void menuLihatDaftarBuku(Buku *head){
 	cout << setw(100) << setfill('-') << "" << endl;
 	cout << setfill(' ');
     cout << "Total Judul: " << totalJudul << " judul buku.\n";
-    cout << "Total Stok: " << totalStok << " buku.\n";
+    cout << "Total Stok Tersedia: " << totalStok << " buku.\n";
 }
 
 // searching buku (sequential search)
