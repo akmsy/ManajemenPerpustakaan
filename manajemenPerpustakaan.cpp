@@ -90,6 +90,13 @@ void loadFile(){
 	fclose(file);
 }
 
+// lanjut ke menu
+void lanjutMenu(){
+	cout << "\nTekan ENTER untuk lanjut...\n";
+    cin.ignore();
+    cin.get();
+}
+
 // cek apakah ISBN sudah terdaftar buat validasi duplikat
 bool isbnSudahAda(const char *isbn) {
     Buku *bantu = head;
@@ -134,7 +141,8 @@ int menuTambahBuku(Buku *&head){
     if (bukuBaru->stok < 1) {
         cout << "[!] Stok buku harus >= 1! Buku tidak dapat ditambahkan.\n";
         delete bukuBaru;
-        return 0;
+		lanjutMenu();
+        // return 0;
     }
 
 	if (head == NULL) {
@@ -153,14 +161,16 @@ int menuTambahBuku(Buku *&head){
     //fclose(file);
     cout << "Buku berhasil ditambahkan!" << endl;
     simpanFile();
-    return 1;
+	lanjutMenu();
+    // return 1;
 }
 
 //fungsi edit buku
 int menuEditBuku(Buku *head){
 	if (head == NULL) {
 		cout << "Buku kosong. Tidak ada buku yang dapat diedit." << endl;
-		return 0;	
+		lanjutMenu();
+		// return 0;	
 	}
 
 	char target[100];
@@ -209,25 +219,29 @@ int menuEditBuku(Buku *head){
 			char konfirm; cin >> konfirm;
 			if (konfirm != 'y' && konfirm != 'Y'){
 				cout << "Perubahan dibatalkan!" << endl;
-				return 0;
+				lanjutMenu();
+				// return 0;
 			}
 
 			cout << "Buku berhasil diedit!" << endl;
 			simpanFile();
-			return 1; // jika berhasil edit 
+			lanjutMenu();
+			// return 1; // jika berhasil edit 
 		}
 		bantu = bantu->next;
 	}
 
 	cout << "Buku tidak ditemukan." << endl;
-	return 0; //gagal nemu buku
+	lanjutMenu();
+	// return 0; //gagal nemu buku
 }
 
 //fungsi hapus buku
 int menuHapusBuku(Buku *&head){
 	if (head == NULL) {
 		cout << "Buku kosong. Tidak ada buku yang dapat dihapus." << endl;
-		return 0;	
+		lanjutMenu();
+		// return 0;	
 	}
 
 	char target[100], targetLow[100];
@@ -250,7 +264,8 @@ int menuHapusBuku(Buku *&head){
             char konfirm; cin >> konfirm;
             if (konfirm != 'y' && konfirm != 'Y') {
                 cout << "Hapus buku dibatalkan.\n";
-                return 0;
+				lanjutMenu();
+                // return 0;
             }
 			
 			if (prev == NULL) { // jika buku yang dihapus adalah head
@@ -263,14 +278,16 @@ int menuHapusBuku(Buku *&head){
 			bantu = NULL; 
 			cout << "Buku berhasil dihapus!" << endl;
 			simpanFile();
-			return 1; // jika berhasil hapus
+			lanjutMenu();
+			// return 1; // jika berhasil hapus
 		}
 		prev = bantu;
 		bantu = bantu->next;
 	}
 
 	cout << "Buku tidak ditemukan." << endl;
-	return 0; //gagal nemu buku
+	lanjutMenu();
+	// return 0; //gagal nemu buku
 }
 
 //fungsi tampilan menu awal
@@ -325,7 +342,7 @@ void menuLihatDaftarBuku(Buku *head){
 
 	Buku *bantu = head;
 
-	cout << "\n                                      === DAFTAR BUKU ===                                      " << endl;
+	cout << "                                      === DAFTAR BUKU ===                                      " << endl;
 	cout << setw(100) << setfill('-') << "" << endl;
 	cout << setfill(' ');
 	cout << left 
@@ -364,6 +381,8 @@ void menuLihatDaftarBuku(Buku *head){
 	cout << setfill(' ');
     cout << "Total Judul: " << totalJudul << " judul buku.\n";
     cout << "Total Stok Tersedia: " << totalStok << " buku.\n";
+
+	lanjutMenu();
 }
 
 // searching buku (sequential search)
@@ -410,6 +429,8 @@ void menuCariBuku(){
     }
  
     if (!ditemukan) cout << "Buku tidak ditemukan.\n";
+
+	lanjutMenu();
 }
 
 void swapBuku(Buku *a, Buku *b){
@@ -442,8 +463,8 @@ void sortISBN(){
     } while (swapped);
 
     simpanFile();
-	menuLihatDaftarBuku(head);
     cout << "\nBuku berhasil diurutkan berdasarkan ISBN (A-Z)!\n\n";
+	menuLihatDaftarBuku(head);
 }
 
 // sorting by Judul
@@ -463,8 +484,8 @@ void sortJudul(){
     } while (swapped);
 
     simpanFile();
-	menuLihatDaftarBuku(head);
 	cout << "\nBuku berhasil diurutkan berdasarkan Judul (A-Z)!\n\n";
+	menuLihatDaftarBuku(head);
 }
 
 // sorting by Stok
@@ -483,8 +504,8 @@ void sortStok(){
         }
     } while (swapped);
     simpanFile();
-	menuLihatDaftarBuku(head);
     cout << "\nBuku berhasil diurutkan berdasarkan Stok (Terbesar-Terkecil)!\n\n";
+	menuLihatDaftarBuku(head);
 }
 
 // sorting by Tahun
@@ -502,8 +523,8 @@ void sortTahun() {
         }
     } while (swapped);
     simpanFile();
-	menuLihatDaftarBuku(head);
     cout << "\nBuku berhasil diurutkan berdasarkan Tahun (Terlama-Terbaru).\n\n";
+	menuLihatDaftarBuku(head);
 }
 
 // fungsi sorting buku 
@@ -596,7 +617,8 @@ void menuTransaksi(){
 					cout << "Nama Peminjam : "; cin >> nama;
 					if (jumlahPinjam <= 0){
 						cout << "Maaf, jumlah buku yang dipinjam minimal 1." << endl;
-						return;
+						lanjutMenu();
+						// return;
 					} else if (bantu->stok >= jumlahPinjam){
 						bantu->stok -= jumlahPinjam; // kurangi stok sesuai jumlah yang dipinjam
 						bantu->status += jumlahPinjam; // tambah status dipinjam sesuai jumlah yang dipinjam
@@ -604,9 +626,11 @@ void menuTransaksi(){
 						catatRiwayat(bantu->judul, "DIPINJAM", jumlahPinjam, nama);
 						cout << "Anda berhasil meminjam buku " << bantu->judul << endl;
 						cout << "Sisa stok buku " << bantu->judul << " sekarang: " << bantu->stok << endl;
+						lanjutMenu();
 					} else {
 						cout << "Maaf, jumlah buku yang diminta melebihi stok yang tersedia." << endl;
-						return;
+						lanjutMenu();
+						// return;
 					}
 					break;
 				}
@@ -616,13 +640,16 @@ void menuTransaksi(){
 					cout << "Nama Pengembali : "; cin >> nama;
 					if (bantu->status == 0) {
 						cout << "Anda tidak meminjam buku ini. Tidak ada yang perlu dikembalikan.\n";
-						return;
+						lanjutMenu();
+						// return;
 					} else if (jumlahKembali <= 0) {
 						cout << "Maaf, jumlah buku yang dikembalikan minimal 1." << endl;
-						return;
+						lanjutMenu();
+						// return;
 					} else if (jumlahKembali > bantu->status) {
 						cout << "Gagal mengembalikan, karena jumlah yang dikembalikan lebih banyak dari yang dipinjam.\n";
-						return;
+						lanjutMenu();
+						// return;
 					}
 
 					bantu->stok += jumlahKembali; // tambah stok sesuai jumlah yang dikembalikan
@@ -632,8 +659,10 @@ void menuTransaksi(){
 					cout << "Buku " << bantu->judul << " berhasil dikembalikan!" << endl;
 					if (jumlahKembali < jumlahPinjam) {
 						cout << "Anda masih meminjam " << (jumlahPinjam - jumlahKembali) << " buku " << bantu->judul << ".\n";
+						lanjutMenu();
 					}else {
 						cout << "Semua buku " << bantu->judul << " sudah dikembalikan. Stok buku sekarang: " << bantu->stok << endl;
+						lanjutMenu();
 					}
 					break;
 				}
@@ -648,6 +677,7 @@ void menuTransaksi(){
 	}
 
 	cout << "Buku tidak ditemukan." << endl;
+	lanjutMenu();
 }
 
 void menuLihatRiwayatTransaksi() {
@@ -738,6 +768,7 @@ void menuLihatRiwayatTransaksi() {
 	cout << "Total Kembali   : " << totalKembali << endl;
 
 	fclose(file);
+	lanjutMenu();
 }
 
 int main(){
