@@ -32,6 +32,17 @@ Buku *head = NULL ;
 //transaksi
 int jumlahPinjam = 0; 
 int jumlahKembali = 0;
+
+// prentilan untuk membuat tabel biar rapi dan estetik di ambil dari kode/nilai extended ASCII characters
+char tl = (char)218;  // ┌
+char h = (char)196;   // ─
+char tr = (char)191;  // ┐
+char v = (char)179;   // │
+char bl = (char)192;  // └
+char br = (char)217;  // ┘
+char pl = (char)195;  // ├
+char pr = (char)180;  // ┤
+
 // fungsi simpan FILE
 void simpanFile(){
 	FILE *file = fopen("perpustakaan.txt", "w");
@@ -173,7 +184,11 @@ int menuEditBuku(Buku *head){
 	}
 
 	char target[100];
-	cout << "\n=== EDIT BUKU ===" << endl;
+	cout << right;
+	cout << tl << setfill(h) << setw(70) << "" << tr << endl;
+	cout << v << setfill(' ') << setw(40) << "EDIT BUKU" << setw(30) << "" << v << endl;
+	cout << bl << setfill(h) << setw(70) << "" << br << endl;
+
 	cout << "Masukkan ISBN / judul buku: "; cin.getline(target, 100);
 	char targetLow[100];
 	strcpy(targetLow, target);
@@ -335,16 +350,6 @@ void menuManajemenBuku(){
 		}
 	} while (pilih != '0');
 }
-
-// prentilan untuk membuat tabel biar rapi dan estetik di ambil dari kode/nilai extended ASCII characters
-char tl = (char)218;  // ┌
-char h = (char)196;   // ─
-char tr = (char)191;  // ┐
-char v = (char)179;   // │
-char bl = (char)192;  // └
-char br = (char)217;  // ┘
-char pl = (char)195;  // ├
-char pr = (char)180;  // ┤
 
 // fungsi Lihat Daftar Buku
 void menuLihatDaftarBuku(Buku *head){
