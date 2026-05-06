@@ -715,18 +715,22 @@ void menuLihatRiwayatTransaksi() {
 	}
 
 	cout << right;
-	cout << setfill('=') << setw(50) << " RIWAYAT TRANSAKSI " << setw(50) << "" << endl;
-	cout << setw(100) << setfill('-') << "" << endl;
+	cout << tl << setfill(h) << setw(96) << "" << tr << endl;
+	cout << v << setfill(' ') << setw(57) << "RIWAYAT TRANSAKSI" << setw(39) << "" << v << endl;
+	cout << bl << setfill(h) << setw(96) << "" << br << endl;
+
+	cout << tl << setfill(h) << setw(96) << "" << tr << endl;
 	cout << setfill(' ');
 
 	cout << left
+		 << setw(2) << v
 		 << setw(22) << "Waktu"
 		 << setw(15) << "Status"
-		 << setw(30) << "Judul"
+		 << setw(25) << "Judul"
 		 << setw(10) << "Jumlah"
-		 << setw(23) << "Nama" << endl;
-
-	cout << setw(100) << setfill('-') << "" << endl;
+		 << setw(23) << "Nama" 
+		 << v << endl;
+	cout << pl << setfill(h) << setw(96) << "" << pr << endl;
 	cout << setfill(' ');
 
 	char line[400];
@@ -773,11 +777,13 @@ void menuLihatRiwayatTransaksi() {
 		}
 
 		cout << left
+			 << setw(2) << v
 			 << setw(22) << waktu
 			 << setw(15) << aksi
-			 << setw(30) << judul
+			 << setw(25) << judul
 			 << setw(10) << jml
-			 << setw(23) << nama << endl;
+			 << setw(23) << nama 
+			 << setw(1) << v << endl;
 
 		total++;
 
@@ -788,7 +794,7 @@ void menuLihatRiwayatTransaksi() {
 		}
 	}
 
-	cout << setw(100) << setfill('-') << "" << endl;
+	cout << bl << setfill(h) << setw(96) << "" << br << endl;
 	cout << setfill(' ');
 
 	cout << "Total Transaksi : " << total << endl;
