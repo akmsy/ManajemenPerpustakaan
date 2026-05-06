@@ -326,6 +326,9 @@ void menuManajemenBuku(){
 			case '3':
 				menuHapusBuku(head);
 				break;
+			case '0':
+				cout << "Kembali ke menu utama..." << endl << endl;
+				break;
 			default : //pilihan menu tidak valid
 				cout << "Masukkan menu dengan BENAR!" << endl << endl;
 				break;
@@ -342,7 +345,8 @@ void menuLihatDaftarBuku(Buku *head){
 
 	Buku *bantu = head;
 
-	cout << "                                      === DAFTAR BUKU ===                                      " << endl;
+	cout << right;
+	cout << setfill('=') << setw(50) << " DAFTAR BUKU " << setw(50) << "" << endl;
 	cout << setw(100) << setfill('-') << "" << endl;
 	cout << setfill(' ');
 	cout << left 
@@ -554,6 +558,9 @@ void menuSortingBuku(){
 		case '4':
 			sortTahun();
 			break;
+		case '0':
+			cout << "Kembali ke menu utama..." << endl << endl;
+			break;
 		default : //pilihan menu tidak valid
 			cout << "Masukkan menu dengan BENAR!" << endl << endl;
 			break;
@@ -605,6 +612,7 @@ void menuTransaksi(){
 			cout << "Buku ditemukan. Pilih jenis transaksi:" << endl;
 			cout << "[1] Peminjaman Buku" << endl;
 			cout << "[2] Pengembalian Buku" << endl;
+			cout << "[0] Kembali" << endl;
 			cout << ">> "; 
 			char pilihan; 
 			cin >> pilihan;
@@ -666,6 +674,9 @@ void menuTransaksi(){
 					}
 					break;
 				}
+				case '0':
+					cout << "Kembali ke menu utama..." << endl << endl;
+					break;
 				default:
 					cout << "Pilihan tidak valid." << endl;
 					break;
