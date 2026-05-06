@@ -336,6 +336,16 @@ void menuManajemenBuku(){
 	} while (pilih != '0');
 }
 
+// prentilan untuk membuat tabel biar rapi dan estetik di ambil dari kode/nilai extended ASCII characters
+char tl = (char)218;  // ┌
+char h = (char)196;   // ─
+char tr = (char)191;  // ┐
+char v = (char)179;   // │
+char bl = (char)192;  // └
+char br = (char)217;  // ┘
+char pl = (char)195;  // ├
+char pr = (char)180;  // ┤
+
 // fungsi Lihat Daftar Buku
 void menuLihatDaftarBuku(Buku *head){
 	if (head == NULL){
@@ -346,10 +356,13 @@ void menuLihatDaftarBuku(Buku *head){
 	Buku *bantu = head;
 
 	cout << right;
-	cout << setfill('=') << setw(50) << " DAFTAR BUKU " << setw(50) << "" << endl;
-	cout << setw(100) << setfill('-') << "" << endl;
+	cout << tl << setfill(h) << setw(96) << "" << tr << endl;
+	cout << v << setfill(' ') << setw(54) << "DAFTAR BUKU" << setw(42) << "" << v << endl;
+	cout << bl << setfill(h) << setw(96) << "" << br << endl;
+	cout << tl << setfill(h) << setw(96) << "" << tr << endl;
 	cout << setfill(' ');
 	cout << left 
+		<< setw(2) << v
 		<< setw(15) << "ISBN"
 		<< setw(25) << "Judul"
 		<< setw(28) << "Penulis"
@@ -357,8 +370,9 @@ void menuLihatDaftarBuku(Buku *head){
 		// << setw(6) << "Stok"
 		// << setw(12) << "Status" << endl;
 		<< setw(12) << "Tersedia"
-		<< setw(12) << "Dipinjam" << endl;
-	cout << setw(100) << setfill('-') << "" << endl;
+		<< setw(9) << "Dipinjam" 
+		<< v << endl;
+	cout << pl << setfill(h) << setw(96) << "" << pr << endl;
 	cout << setfill(' ');
 
 	int totalJudul = 0;
@@ -366,6 +380,7 @@ void menuLihatDaftarBuku(Buku *head){
 	while (bantu != NULL){
 	
 		cout << left 
+			<< setw(2) << v
 			<< setw(15) << bantu->ISBN
 			<< setw(25) << bantu->judul
 			<< setw(28) << bantu->penulis
@@ -373,7 +388,8 @@ void menuLihatDaftarBuku(Buku *head){
 			// << setw(6) << bantu->stok
 			// << setw(12) << "Tersedia: " << bantu->stok << " |Dipinjam: " << bantu->status <<endl; //status
 			<< setw(12) << bantu->stok
-			<< setw(12) << bantu->status << endl; 
+			<< setw(9) << bantu->status 
+			<< v << endl; 
 		
 		totalJudul++;
 		totalStok += bantu->stok;
@@ -381,7 +397,7 @@ void menuLihatDaftarBuku(Buku *head){
 		bantu = bantu->next;
 	}
 
-	cout << setw(100) << setfill('-') << "" << endl;
+	cout << bl << setfill(h) << setw(96) << "" << br << endl;
 	cout << setfill(' ');
     cout << "Total Judul: " << totalJudul << " judul buku.\n";
     cout << "Total Stok Tersedia: " << totalStok << " buku.\n";
