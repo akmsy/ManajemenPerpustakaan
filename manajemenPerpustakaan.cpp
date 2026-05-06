@@ -678,7 +678,7 @@ void menuTransaksi(){
 						cout << "Nama Peminjam : "; cin >> nama;
 						simpanFile();
 						catatRiwayat(bantu->judul, "DIPINJAM", jumlahPinjam, nama);
-						cout << "Anda berhasil meminjam buku " << bantu->judul << endl;
+						cout << "Buku " << bantu->judul << "berhasil dipinjam." << endl;
 						cout << "Sisa stok buku " << bantu->judul << " sekarang: " << bantu->stok << endl;
 						cin.ignore();
 						lanjutMenu();
@@ -694,7 +694,7 @@ void menuTransaksi(){
 				case '2':{
 					cout << "Berapa buku yang dikembalikan(" << bantu->status << ")? "; cin >> jumlahKembali;
 					if (bantu->status == 0) {
-						cout << "Anda tidak meminjam buku ini. Tidak ada yang perlu dikembalikan.\n";
+						cout << "Tidak ada yang meminjam buku ini. Tidak ada yang perlu dikembalikan.\n";
 						cin.ignore();
 						lanjutMenu();
 						// return;
@@ -717,7 +717,7 @@ void menuTransaksi(){
 						catatRiwayat(bantu->judul, "DIKEMBALIKAN", jumlahKembali, nama);
 						cout << "Buku " << bantu->judul << " berhasil dikembalikan!" << endl;
 						if (jumlahKembali < jumlahPinjam) {
-							cout << "Anda masih meminjam " << (jumlahPinjam - jumlahKembali) << " buku " << bantu->judul << ".\n";
+							cout << "Masih ada " << (jumlahPinjam - jumlahKembali) << " buku " << bantu->judul << " yang dipinjam.\n";
 							cin.ignore();
 							lanjutMenu();
 						} else {
