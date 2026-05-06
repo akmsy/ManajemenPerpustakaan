@@ -666,16 +666,16 @@ void menuTransaksi(){
 				//pinjam
 				case '1': {
 					cout << "Berapa buku yang dipinjam(" << bantu->stok << ")? "; cin >> jumlahPinjam;
-					cout << "Nama Peminjam : "; cin >> nama;
 					cin.ignore();
 					if (jumlahPinjam <= 0){
 						cout << "Maaf, jumlah buku yang dipinjam minimal 1." << endl;
-						cin.ignore();
+						// cin.ignore();
 						lanjutMenu();
 						// return;
 					} else if (bantu->stok >= jumlahPinjam){
 						bantu->stok -= jumlahPinjam; // kurangi stok sesuai jumlah yang dipinjam
 						bantu->status += jumlahPinjam; // tambah status dipinjam sesuai jumlah yang dipinjam
+						cout << "Nama Peminjam : "; cin >> nama;
 						simpanFile();
 						catatRiwayat(bantu->judul, "DIPINJAM", jumlahPinjam, nama);
 						cout << "Anda berhasil meminjam buku " << bantu->judul << endl;
@@ -684,7 +684,7 @@ void menuTransaksi(){
 						lanjutMenu();
 					} else {
 						cout << "Maaf, jumlah buku yang diminta melebihi stok yang tersedia." << endl;
-						cin.ignore();
+						// cin.ignore();
 						lanjutMenu();
 						// return;
 					}

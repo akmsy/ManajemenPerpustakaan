@@ -7,3 +7,5 @@
 06/05/2026 21:30:41|DIKEMBALIKAN|Laskar Pelangi|100|ww
 06/05/2026 21:35:06|DIKEMBALIKAN|Laskar Pelangi|0|e
 06/05/2026 21:40:29|DIKEMBALIKAN|Laskar Pelangi|1|syududu
+06/05/2026 21:44:32|DIPINJAM|Laskar Pelangi|2|pulu
+06/05/2026 21:45:34|DIPINJAM|Laskar Pelangi|8|ww
