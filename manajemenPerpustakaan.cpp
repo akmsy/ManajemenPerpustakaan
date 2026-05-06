@@ -261,7 +261,10 @@ int menuHapusBuku(Buku *&head){
 	}
 
 	char target[100], targetLow[100];
-	cout << "\n=== HAPUS BUKU ===" << endl;
+	cout << right;
+	cout << tl << setfill(h) << setw(70) << "" << tr << endl;
+	cout << v << setfill(' ') << setw(40) << "HAPUS BUKU" << setw(30) << "" << v << endl;
+	cout << bl << setfill(h) << setw(70) << "" << br << endl;
 	cout << "Masukkan ISBN / judul buku: "; cin.getline(target, 100);
 	strcpy(targetLow, target);
 	toLowerStr(targetLow);
@@ -305,7 +308,10 @@ int menuHapusBuku(Buku *&head){
 
 //fungsi tampilan menu awal
 void tampilanMenuAwal(){	
-	cout << "\n=== SISTEM MANAJEMEN PERPUSTAKAAN === " << endl;
+	cout << right;
+	cout << tl << setfill(h) << setw(70) << "" << tr << endl;
+	cout << v << setfill(' ') << setw(50) << "SISTEM MANAJEMEN PERPUSTAKAAN" << setw(20) << "" << v << endl;
+	cout << bl << setfill(h) << setw(70) << "" << br << endl;
 	cout << "[1] Manajemen Buku" << endl;
 	cout << "[2] Lihat Daftar Buku" << endl;
 	cout << "[3] Cari Buku" << endl;
@@ -322,7 +328,10 @@ void tampilanMenuAwal(){
 void menuManajemenBuku(){
 	char pilih;
 	do {
-		cout << "\n=== MANAJEMEN BUKU ===" << endl;
+		cout << right;
+		cout << tl << setfill(h) << setw(70) << "" << tr << endl;
+		cout << v << setfill(' ') << setw(40) << "MANAJEMEN BUKU" << setw(30) << "" << v << endl;
+		cout << bl << setfill(h) << setw(70) << "" << br << endl;
 		cout << "[1] Tambah Buku" << endl;
 		cout << "[2] Edit Buku" << endl;
 		cout << "[3] Hapus Buku" << endl;
@@ -418,7 +427,10 @@ void menuCariBuku(){
     }
  
     char target[100];
-    cout << "\n=== CARI BUKU ===" << endl;
+	cout << right;
+	cout << tl << setfill(h) << setw(70) << "" << tr << endl;
+	cout << v << setfill(' ') << setw(40) << "CARI BUKU" << setw(30) << "" << v << endl;
+	cout << bl << setfill(h) << setw(70) << "" << br << endl;
     cout << "Masukkan ISBN / Judul buku: ";
     cin.getline(target, 100);
  
@@ -437,7 +449,10 @@ void menuCariBuku(){
         toLowerStr(judulLow);
 
         if (strcmp(bantu->ISBN, target) == 0 || strstr(judulLow, targetLow) != NULL){
-            cout << "=== Detail Buku ===" << endl;
+			cout << right;
+			cout << tl << setfill(h) << setw(70) << "" << tr << endl;
+			cout << v << setfill(' ') << setw(40) << "DETAIL BUKU" << setw(30) << "" << v << endl;
+			cout << bl << setfill(h) << setw(70) << "" << br << endl;
             cout << "ISBN     : " << bantu->ISBN    << endl;
             cout << "Judul    : " << bantu->judul   << endl;
             cout << "Penulis  : " << bantu->penulis << endl;
@@ -555,7 +570,10 @@ void sortTahun() {
 void menuSortingBuku(){
 	char pilih;
 	do { 
-		cout << "=== SORTING BUKU ===" << endl << endl;
+		cout << right;
+		cout << tl << setfill(h) << setw(70) << "" << tr << endl;
+		cout << v << setfill(' ') << setw(40) << "SORTING BUKU" << setw(30) << "" << v << endl;
+		cout << bl << setfill(h) << setw(70) << "" << br << endl;
 		cout << "Mau sorting berdasarkan apa?" << endl;
 		cout << "[1] ISBN (A-Z)" << endl;
 		cout << "[2] Judul (A-Z)" << endl;
@@ -613,7 +631,10 @@ void menuTransaksi(){
 
 	char target[100];
 	char nama[100];
-	cout << "\n=== TRANSAKSI BUKU ===" << endl;
+	cout << right;
+	cout << tl << setfill(h) << setw(70) << "" << tr << endl;
+	cout << v << setfill(' ') << setw(40) << "TRANSAKSI BUKU" << setw(30) << "" << v << endl;
+	cout << bl << setfill(h) << setw(70) << "" << br << endl;
 	cout << "Masukkan ISBN / Judul buku: ";
 	cin.getline(target, 100);
 
