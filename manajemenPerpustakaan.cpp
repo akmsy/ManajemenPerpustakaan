@@ -131,7 +131,10 @@ int menuTambahBuku(Buku *&head){
     //Buku bukuBaru; //deklarasi untuk menambah buku baru
  
     //user input buku baru
-    cout << " === TAMBAH BUKU === " << endl;
+    cout << right;
+	cout << tl << setfill(h) << setw(70) << "" << tr << endl;
+	cout << v << setfill(' ') << setw(40) << "TAMBAH BUKU" << setw(30) << "" << v << endl;
+	cout << bl << setfill(h) << setw(70) << "" << br << endl;
     cout << "Masukkan ISBN: "; cin.getline(bukuBaru->ISBN, 20);
 
 	if (isbnSudahAda(bukuBaru->ISBN)){
@@ -171,6 +174,7 @@ int menuTambahBuku(Buku *&head){
     //fclose(file);
     cout << "Buku berhasil ditambahkan!" << endl;
     simpanFile();
+	cin.ignore();
 	lanjutMenu();
     // return 1;
 }
