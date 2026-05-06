@@ -93,8 +93,7 @@ void loadFile(){
 // lanjut ke menu
 void lanjutMenu(){
 	cout << "\nTekan ENTER untuk lanjut...\n";
-    cin.ignore();
-    cin.get();
+	cin.get();
 }
 
 // cek apakah ISBN sudah terdaftar buat validasi duplikat
@@ -122,7 +121,7 @@ int menuTambahBuku(Buku *&head){
  
     //user input buku baru
     cout << " === TAMBAH BUKU === " << endl;
-    cout << "Masukkan ISBN: "; cin.ignore(); cin.getline(bukuBaru->ISBN, 20);
+    cout << "Masukkan ISBN: "; cin.getline(bukuBaru->ISBN, 20);
 
 	if (isbnSudahAda(bukuBaru->ISBN)){
 		cout << "[!] ISBN sudah terdaftar! Buku tidak dapat ditambahkan.\n";
@@ -175,7 +174,6 @@ int menuEditBuku(Buku *head){
 
 	char target[100];
 	cout << "\n=== EDIT BUKU ===" << endl;
-	cin.ignore();
 	cout << "Masukkan ISBN / judul buku: "; cin.getline(target, 100);
 	char targetLow[100];
 	strcpy(targetLow, target);
@@ -195,6 +193,7 @@ int menuEditBuku(Buku *head){
 			cout << "[4] Stok" << endl;
 			cout << ">> "; 
 			int pilihan; cin >> pilihan;
+			cin.ignore();
 
 			switch (pilihan) {
 				case 1:
@@ -246,7 +245,6 @@ int menuHapusBuku(Buku *&head){
 
 	char target[100], targetLow[100];
 	cout << "\n=== HAPUS BUKU ===" << endl;
-	cin.ignore();
 	cout << "Masukkan ISBN / judul buku: "; cin.getline(target, 100);
 	strcpy(targetLow, target);
 	toLowerStr(targetLow);
@@ -301,6 +299,7 @@ void tampilanMenuAwal(){
 	cout << "[6] Riwayat Transaksi" << endl;
 	cout << "[0] Keluar Program" << endl;
 	cout << ">> "; cin >> optionMenu;
+	cin.ignore();
 	system("cls");
 }
 
@@ -314,6 +313,7 @@ void menuManajemenBuku(){
 		cout << "[3] Hapus Buku" << endl;
 		cout << "[0] Kembali" << endl;
 		cout << ">> "; cin >> pilih;
+		cin.ignore();
 		system("cls");
 
 		switch (pilih) {
@@ -414,7 +414,6 @@ void menuCariBuku(){
  
     char target[100];
     cout << "\n=== CARI BUKU ===" << endl;
-    cin.ignore();
     cout << "Masukkan ISBN / Judul buku: ";
     cin.getline(target, 100);
  
@@ -559,6 +558,7 @@ void menuSortingBuku(){
 		cout << "[4] Tahun Terlama" << endl;
 		cout << "[0] Kembali" << endl;
 		cout << ">> "; cin >> pilih;
+		cin.ignore();
 		system("cls");
 
 		switch (pilih){
@@ -609,7 +609,6 @@ void menuTransaksi(){
 	char target[100];
 	char nama[100];
 	cout << "\n=== TRANSAKSI BUKU ===" << endl;
-	cin.ignore();
 	cout << "Masukkan ISBN / Judul buku: ";
 	cin.getline(target, 100);
 
@@ -632,6 +631,7 @@ void menuTransaksi(){
 			cout << ">> "; 
 			char pilihan; 
 			cin >> pilihan;
+			cin.ignore();
 
 
 			switch (pilihan){
@@ -639,6 +639,7 @@ void menuTransaksi(){
 				case '1': {
 					cout << "Berapa buku yang dipinjam(" << bantu->stok << ")? "; cin >> jumlahPinjam;
 					cout << "Nama Peminjam : "; cin >> nama;
+					cin.ignore();
 					if (jumlahPinjam <= 0){
 						cout << "Maaf, jumlah buku yang dipinjam minimal 1." << endl;
 						lanjutMenu();
