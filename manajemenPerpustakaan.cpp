@@ -698,7 +698,8 @@ void menuLihatRiwayatTransaksi() {
 		return;
 	}
 
-	cout << "\n                              === RIWAYAT TRANSAKSI ===                              " << endl;
+	cout << right;
+	cout << setfill('=') << setw(50) << " RIWAYAT TRANSAKSI " << setw(50) << "" << endl;
 	cout << setw(100) << setfill('-') << "" << endl;
 	cout << setfill(' ');
 
