@@ -104,8 +104,9 @@ void loadFile(){
 // lanjut ke menu
 void lanjutMenu(){
 	cout << "\nTekan ENTER untuk lanjut...";
-	cin.ignore();
+	// cin.ignore();
 	cin.get();
+	system("cls");
 }
 
 // cek apakah ISBN sudah terdaftar buat validasi duplikat
@@ -175,6 +176,7 @@ int menuTambahBuku(Buku *&head){
     //fclose(file);
     cout << "Buku berhasil ditambahkan!" << endl;
     simpanFile();
+	cin.ignore();
 	lanjutMenu();
     // return 1;
 }

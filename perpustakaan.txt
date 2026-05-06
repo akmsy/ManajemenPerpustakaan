@@ -1,4 +1,4 @@
-2112|Laskar Pelangi|Andrea Hirata|2005|10|1
+2112|Laskar Pelangi|Andrea Hirata|2005|9|2
 2113|Bumi|Tere Liye|2014|10|1
 2114|Negeri 5 Menara|Ahmad Fuadi|2009|7|4
 2115|Dilan 1990|Pidi Baiq|2014|5|2
@@ -9,3 +9,5 @@
 2120|5 cm|Donny Dhirgantoro|2005|8|0
 2121|Rectoverso|Dee Lestari|2008|5|1
 2122|Bumi Manusia|Pramoedya Ananta Toer|1980|11|1
+8888|aku anak baik|anu|2009|3|0
+7777|reja calon aslab|reja dwiki|2008|3|0
