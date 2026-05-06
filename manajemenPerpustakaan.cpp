@@ -104,6 +104,7 @@ void loadFile(){
 // lanjut ke menu
 void lanjutMenu(){
 	cout << "\nTekan ENTER untuk lanjut...";
+	cin.ignore();
 	cin.get();
 }
 
@@ -174,7 +175,6 @@ int menuTambahBuku(Buku *&head){
     //fclose(file);
     cout << "Buku berhasil ditambahkan!" << endl;
     simpanFile();
-	cin.ignore();
 	lanjutMenu();
     // return 1;
 }
@@ -237,14 +237,12 @@ int menuEditBuku(Buku *head){
 			char konfirm; cin >> konfirm;
 			if (konfirm != 'y' && konfirm != 'Y'){
 				cout << "Perubahan dibatalkan!" << endl;
-				lanjutMenu();
-				// return 0;
+				return 0;
 			}
 
 			cout << "Buku berhasil diedit!" << endl;
 			simpanFile();
-			lanjutMenu();
-			// return 1; // jika berhasil edit 
+			return 1; // jika berhasil edit 
 		}
 		bantu = bantu->next;
 	}
@@ -281,8 +279,7 @@ int menuHapusBuku(Buku *&head){
             char konfirm; cin >> konfirm;
             if (konfirm != 'y' && konfirm != 'Y') {
                 cout << "Hapus buku dibatalkan.\n";
-				lanjutMenu();
-                // return 0;
+                return 0;
             }
 			
 			if (prev == NULL) { // jika buku yang dihapus adalah head
@@ -295,8 +292,7 @@ int menuHapusBuku(Buku *&head){
 			bantu = NULL; 
 			cout << "Buku berhasil dihapus!" << endl;
 			simpanFile();
-			lanjutMenu();
-			// return 1; // jika berhasil hapus
+			return 1; // jika berhasil hapus
 		}
 		prev = bantu;
 		bantu = bantu->next;
@@ -326,7 +322,7 @@ void tampilanMenuAwal(){
 void menuManajemenBuku(){
 	char pilih;
 	do {
-		cout << "=== MANAJEMEN BUKU ===" << endl;
+		cout << "\n=== MANAJEMEN BUKU ===" << endl;
 		cout << "[1] Tambah Buku" << endl;
 		cout << "[2] Edit Buku" << endl;
 		cout << "[3] Hapus Buku" << endl;
