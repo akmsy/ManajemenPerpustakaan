@@ -92,7 +92,7 @@ void loadFile(){
 
 // lanjut ke menu
 void lanjutMenu(){
-	cout << "\nTekan ENTER untuk lanjut...\n";
+	cout << "\nTekan ENTER untuk lanjut...";
 	cin.get();
 }
 
@@ -809,8 +809,9 @@ void menuLihatRiwayatTransaksi() {
 int main(){
 	loadFile();
 	
-    cout << "== LOGIN ==" << endl;
-	cout << endl;
+	cout << tl << setfill(h) << setw(96) << "" << tr << endl;
+	cout << v << setfill(' ') << setw(54) << "LOGIN" << setw(42) << "" << v << endl;
+	cout << bl << setfill(h) << setw(96) << "" << br << endl;
     kesempatan = 3;
 
     // FORM LOGIN
