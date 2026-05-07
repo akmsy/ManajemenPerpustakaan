@@ -242,9 +242,25 @@ int menuEditBuku(Buku *head){
 					break;
 				case 3:
 					cout << "Masukkan Tahun baru: "; cin >> bantu->tahun;
+						if (!(cin >> bantu->tahun)) {
+							cin.clear();
+							cin.ignore(1000, '\n');
+							cout << "[!] Tahun buku harus angka! Buku tidak dapat ditambahkan.\n";
+							delete bantu;
+							lanjutMenu();
+							// return 0;
+						} 
 					break;
 				case 4:
 					cout << "Masukkan Stok baru: "; cin >> bantu->stok;
+						if (!(cin >> bantu->stok)) {
+							cin.clear();
+							cin.ignore(1000, '\n');
+							cout << "[!] Stok buku harus angka! Buku tidak dapat ditambahkan.\n";
+							delete bantu;
+							lanjutMenu();
+							// return 0;
+						} 
 					break;
 				default:
 					cout << "Pilihan tidak valid." << endl;
