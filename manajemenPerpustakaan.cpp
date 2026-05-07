@@ -148,22 +148,22 @@ int menuTambahBuku(Buku *&head){
     cout << "Masukkan Judul: "; cin.getline(bukuBaru->judul, 100);
     cout << "Masukkan Penulis: "; cin.getline(bukuBaru->penulis, 100);
     cout << "Masukkan Tahun: "; cin >> bukuBaru->tahun;
-	if (cin.fail()) {
-		cin.clear(); // reset state cin
-		cin.ignore(1000, '\n'); // bersihkan input yang salah
+	if (!(cin >> bukuBaru->tahun)) {
+		cin.clear();
+		cin.ignore(1000, '\n');
         cout << "[!] Tahun buku harus angka! Buku tidak dapat ditambahkan.\n";
         delete bukuBaru;
 		lanjutMenu();
-        return 0;
+        // return 0;
     } else {
 		cout << "Masukkan Stok: "; cin >> bukuBaru->stok;
 		bukuBaru->status = 0; //status buku baru belum dipinjam
 		bukuBaru->next = NULL; //inisialisasi pengait buku baru
 	
 		// error handling stok negatif atau 0
-		if (cin.fail()) {
-			cin.clear(); // reset state cin
-			cin.ignore(1000, '\n'); // bersihkan input yang salah
+		if (!(cin >> bukuBaru->stok)) {
+			cin.clear();
+			cin.ignore(1000, '\n');
 			cout << "[!] Stok buku harus angka! Buku tidak dapat ditambahkan.\n";
 			delete bukuBaru;
 			lanjutMenu();
