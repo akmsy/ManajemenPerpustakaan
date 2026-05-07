@@ -1,13 +1,14 @@
-2122|Bumi Manusia|Pramoedya Ananta Toer|1980|11|1
-2116|Ayat-Ayat Cinta|Habiburrahman El Shirazy|2004|6|2
 2112|Laskar Pelangi|Andrea Hirata|2005|100|10
-2120|5 cm|Donny Dhirgantoro|2005|8|0
-2121|Rectoverso|Dee Lestari|2008|5|1
-7777|reja calon aslab|reja dwiki|2008|1|2
-2117|Perahu Kertas|Dee Lestari|2009|9|1
-2114|Negeri 5 Menara|Ahmad Fuadi|2009|7|4
-8888|aku anak baik|anu|2009|3|0
 2113|Bumi|Tere Liye|2014|10|1
+2114|Negeri 5 Menara|Ahmad Fuadi|2009|7|4
 2115|Dilan 1990|Pidi Baiq|2014|5|2
+2116|Ayat-Ayat Cinta|Habiburrahman El Shirazy|2004|6|2
+2117|Perahu Kertas|Dee Lestari|2009|9|1
 2118|Pulang|Tere Liye|2015|6|2
 2119|Hujan|Tere Liye|2016|6|3
+2120|5 cm|Donny Dhirgantoro|2005|8|0
+2121|Rectoverso|Dee Lestari|2008|5|1
+2122|Bumi Manusia|Pramoedya Ananta Toer|1980|11|1
+7777|reja calon aslab|reja dwiki|2008|1|2
+8888|aku anak baik|anu|2009|3|0
+|||1953654091|1149006689|0

@@ -148,37 +148,54 @@ int menuTambahBuku(Buku *&head){
     cout << "Masukkan Judul: "; cin.getline(bukuBaru->judul, 100);
     cout << "Masukkan Penulis: "; cin.getline(bukuBaru->penulis, 100);
     cout << "Masukkan Tahun: "; cin >> bukuBaru->tahun;
-    cout << "Masukkan Stok: "; cin >> bukuBaru->stok;
-    bukuBaru->status = 0; //status buku baru belum dipinjam
-	bukuBaru->next = NULL; //inisialisasi pengait buku baru
-
-	// error handling stok negatif atau 0
-    if (bukuBaru->stok < 1) {
-        cout << "[!] Stok buku harus >= 1! Buku tidak dapat ditambahkan.\n";
+	if (cin.fail()) {
+		cin.clear(); // reset state cin
+		cin.ignore(1000, '\n'); // bersihkan input yang salah
+        cout << "[!] Tahun buku harus angka! Buku tidak dapat ditambahkan.\n";
         delete bukuBaru;
 		lanjutMenu();
-        // return 0;
-    }
-
-	if (head == NULL) {
-		head = bukuBaru;
-	} else {
-		Buku *bantu = head;
-		while (bantu->next != NULL) {
-			bantu = bantu->next;
+        return 0;
+    } else {
+		cout << "Masukkan Stok: "; cin >> bukuBaru->stok;
+		bukuBaru->status = 0; //status buku baru belum dipinjam
+		bukuBaru->next = NULL; //inisialisasi pengait buku baru
+	
+		// error handling stok negatif atau 0
+		if (cin.fail()) {
+			cin.clear(); // reset state cin
+			cin.ignore(1000, '\n'); // bersihkan input yang salah
+			cout << "[!] Stok buku harus angka! Buku tidak dapat ditambahkan.\n";
+			delete bukuBaru;
+			lanjutMenu();
+			return 0;
+		} else if (bukuBaru->stok < 1) {
+			cin.ignore();
+			cout << "[!] Stok buku harus >= 1! Buku tidak dapat ditambahkan.\n";
+			delete bukuBaru;
+			lanjutMenu();
+			return 0;
+		} else {
+			if (head == NULL) {
+				head = bukuBaru;
+			} else {
+				Buku *bantu = head;
+				while (bantu->next != NULL) {
+					bantu = bantu->next;
+				}
+				bantu->next = bukuBaru;
+			}
+	
+			//memasukkan data buku baru ke dalam file
+			//fprintf(file, "%s;%s;%s;%d\n", bukuBaru->ISBN, bukuBaru->judul, bukuBaru->penulis, bukuBaru->tahun);
+	
+			//fclose(file);
+			cout << "Buku berhasil ditambahkan!" << endl;
+			simpanFile();
+			cin.ignore();
+			lanjutMenu();
+			// return 1;
 		}
-		bantu->next = bukuBaru;
 	}
-
-    //memasukkan data buku baru ke dalam file
-    //fprintf(file, "%s;%s;%s;%d\n", bukuBaru->ISBN, bukuBaru->judul, bukuBaru->penulis, bukuBaru->tahun);
-
-    //fclose(file);
-    cout << "Buku berhasil ditambahkan!" << endl;
-    simpanFile();
-	cin.ignore();
-	lanjutMenu();
-    // return 1;
 }
 
 //fungsi edit buku
