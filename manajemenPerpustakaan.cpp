@@ -127,75 +127,85 @@ void toLowerStr(char *str) {
 
 //fungsi tambah buku
 int menuTambahBuku(Buku *&head){
-	Buku *bukuBaru = new Buku; //alokasi memori untuk buku baru
-
-    //FILE *file = fopen("perpustakaan.txt", "a");
-    //Buku bukuBaru; //deklarasi untuk menambah buku baru
- 
     //user input buku baru
     cout << right;
 	cout << tl << setfill(h) << setw(70) << "" << tr << endl;
 	cout << v << setfill(' ') << setw(40) << "TAMBAH BUKU" << setw(30) << "" << v << endl;
 	cout << bl << setfill(h) << setw(70) << "" << br << endl;
-    cout << "Masukkan ISBN: "; cin.getline(bukuBaru->ISBN, 20);
+
+	int jumlahBuku;
+	cout << "Berapa buku yang ingin ditambahkan? "; 
+	cin >> jumlahBuku;
+	cin.ignore();
+
+	for (int i = 0; i < jumlahBuku; i++) {
+		Buku *bukuBaru = new Buku; //alokasi memori untuk buku baru
+		cout << "\nBuku ke-" << (i + 1) << ":\n";
+
+		cout << "Masukkan ISBN: "; cin.getline(bukuBaru->ISBN, 20);
 
 	if (isbnSudahAda(bukuBaru->ISBN)){
 		cout << "[!] ISBN sudah terdaftar! Buku tidak dapat ditambahkan.\n";
+		cout << "Buku ke-" << (i + 1) << " gagal ditambahkan.\n";
         delete bukuBaru;
-        return 0;
+		continue;
+        //return 0;
 	}
 
-    cout << "Masukkan Judul: "; cin.getline(bukuBaru->judul, 100);
-    cout << "Masukkan Penulis: "; cin.getline(bukuBaru->penulis, 100);
-    cout << "Masukkan Tahun: "; //cin >> bukuBaru->tahun;
-	if (!(cin >> bukuBaru->tahun)) {
+    	cout << "Masukkan Judul: "; cin.getline(bukuBaru->judul, 100);
+    	cout << "Masukkan Penulis: "; cin.getline(bukuBaru->penulis, 100);
+    	cout << "Masukkan Tahun: "; //cin >> bukuBaru->tahun;
+		
+		if (!(cin >> bukuBaru->tahun)) {
 		cin.clear();
 		cin.ignore(1000, '\n');
         cout << "[!] Tahun buku harus angka! Buku tidak dapat ditambahkan.\n";
         delete bukuBaru;
-		lanjutMenu();
+		cout << "Buku ke-" << (i + 1) << " gagal ditambahkan.\n";
+		continue;
         // return 0;
-    } else {
+    	} else {
 		cout << "Masukkan Stok: "; //cin >> bukuBaru->stok;
 		bukuBaru->status = 0; //status buku baru belum dipinjam
 		bukuBaru->next = NULL; //inisialisasi pengait buku baru
 	
 		// error handling stok negatif atau 0
-		if (!(cin >> bukuBaru->stok)) {
-			cin.clear();
-			cin.ignore(1000, '\n');
-			cout << "[!] Stok buku harus angka! Buku tidak dapat ditambahkan.\n";
-			delete bukuBaru;
-			lanjutMenu();
-			return 0;
-		} else if (bukuBaru->stok < 1) {
-			cin.ignore();
-			cout << "[!] Stok buku harus >= 1! Buku tidak dapat ditambahkan.\n";
-			delete bukuBaru;
-			lanjutMenu();
-			return 0;
-		} else {
-			if (head == NULL) {
-				head = bukuBaru;
+			if (!(cin >> bukuBaru->stok)) {
+				cin.clear();
+				cin.ignore(1000, '\n');
+				cout << "[!] Stok buku harus angka! Buku tidak dapat ditambahkan.\n";
+				delete bukuBaru;
+				cout << "Buku ke-" << (i + 1) << " gagal ditambahkan.\n";
+				continue;
+				//return 0;
+			} else if (bukuBaru->stok < 1) {
+				cin.ignore();
+				cout << "[!] Stok buku harus >= 1! Buku tidak dapat ditambahkan.\n";
+				delete bukuBaru;
+				cout << "Buku ke-" << (i + 1) << " gagal ditambahkan!.\n";
+				continue;
+				//return 0;
 			} else {
-				Buku *bantu = head;
-				while (bantu->next != NULL) {
-					bantu = bantu->next;
+				if (head == NULL) {
+					head = bukuBaru;
+				} else {
+					Buku *bantu = head;
+					while (bantu->next != NULL) {
+						bantu = bantu->next;
+					}
+					bantu->next = bukuBaru;
 				}
-				bantu->next = bukuBaru;
+	
+			
+				cout << "Buku ke-" << (i + 1) << " berhasil ditambahkan!.\n";
+				simpanFile();
+				cin.ignore();
+				
+				// return 1;
 			}
-	
-			//memasukkan data buku baru ke dalam file
-			//fprintf(file, "%s;%s;%s;%d\n", bukuBaru->ISBN, bukuBaru->judul, bukuBaru->penulis, bukuBaru->tahun);
-	
-			//fclose(file);
-			cout << "Buku berhasil ditambahkan!" << endl;
-			simpanFile();
-			cin.ignore();
-			lanjutMenu();
-			// return 1;
 		}
 	}
+	lanjutMenu();
 }
 
 //fungsi edit buku
