@@ -147,7 +147,7 @@ int menuTambahBuku(Buku *&head){
 
     cout << "Masukkan Judul: "; cin.getline(bukuBaru->judul, 100);
     cout << "Masukkan Penulis: "; cin.getline(bukuBaru->penulis, 100);
-    cout << "Masukkan Tahun: "; cin >> bukuBaru->tahun;
+    cout << "Masukkan Tahun: "; //cin >> bukuBaru->tahun;
 	if (!(cin >> bukuBaru->tahun)) {
 		cin.clear();
 		cin.ignore(1000, '\n');
@@ -156,7 +156,7 @@ int menuTambahBuku(Buku *&head){
 		lanjutMenu();
         // return 0;
     } else {
-		cout << "Masukkan Stok: "; cin >> bukuBaru->stok;
+		cout << "Masukkan Stok: "; //cin >> bukuBaru->stok;
 		bukuBaru->status = 0; //status buku baru belum dipinjam
 		bukuBaru->next = NULL; //inisialisasi pengait buku baru
 	
