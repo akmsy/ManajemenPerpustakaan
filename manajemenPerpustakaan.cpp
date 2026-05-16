@@ -262,24 +262,26 @@ int menuEditBuku(Buku *head){
 					cout << "Masukkan Penulis baru: "; cin.ignore(); cin.getline(bantu->penulis, 100);
 					break;
 				case 3:
-					cout << "Masukkan Tahun baru: "; cin >> bantu->tahun;
-						if (!(cin >> bantu->tahun)) {
+					cout << "Masukkan Tahun baru: "; //cin >> bantu->tahun;
+						while (!(cin >> bantu->tahun)) {
 							cin.clear();
 							cin.ignore(1000, '\n');
-							cout << "[!] Tahun buku harus angka! Buku tidak dapat ditambahkan.\n";
-							delete bantu;
-							lanjutMenu();
+							cout << "[!] Tahun buku harus angka!\n"; 
+							cout << "Masukkan Tahun baru: ";
+							// delete bantu;
+							// lanjutMenu();
 							// return 0;
 						} 
 					break;
 				case 4:
-					cout << "Masukkan Stok baru: "; cin >> bantu->stok;
-						if (!(cin >> bantu->stok)) {
+					cout << "Masukkan Stok baru: "; //cin >> bantu->stok;
+						while (!(cin >> bantu->stok) || bantu->stok < 1) {
 							cin.clear();
 							cin.ignore(1000, '\n');
-							cout << "[!] Stok buku harus angka! Buku tidak dapat ditambahkan.\n";
-							delete bantu;
-							lanjutMenu();
+							cout << "[!] Stok buku harus angka dan >=1!\n";
+							cout << "Masukkan Stok baru: ";
+							// delete bantu;
+							// lanjutMenu();
 							// return 0;
 						} 
 					break;
