@@ -154,56 +154,67 @@ int menuTambahBuku(Buku *&head){
 
     	cout << "Masukkan Judul: "; cin.getline(bukuBaru->judul, 100);
     	cout << "Masukkan Penulis: "; cin.getline(bukuBaru->penulis, 100);
-    	cout << "Masukkan Tahun: "; //cin >> bukuBaru->tahun;
+    	// cout << "Masukkan Tahun: "; //cin >> bukuBaru->tahun;
 		
-		if (!(cin >> bukuBaru->tahun)) {
-		cin.clear();
-		cin.ignore(1000, '\n');
-        cout << "[!] Tahun buku harus angka! Buku tidak dapat ditambahkan.\n";
-        delete bukuBaru;
-		cout << "Buku ke-" << (i + 1) << " gagal ditambahkan.\n";
-		continue;
-        // return 0;
-    	} else {
-		cout << "Masukkan Stok: "; //cin >> bukuBaru->stok;
-		bukuBaru->status = 0; //status buku baru belum dipinjam
-		bukuBaru->next = NULL; //inisialisasi pengait buku baru
-	
-		// error handling stok negatif atau 0
-			if (!(cin >> bukuBaru->stok)) {
+		bool tahunValid = false;
+		do {
+			cout << "Masukkan Tahun: ";
+			if (!(cin >> bukuBaru->tahun)) {
 				cin.clear();
 				cin.ignore(1000, '\n');
-				cout << "[!] Stok buku harus angka! Buku tidak dapat ditambahkan.\n";
-				delete bukuBaru;
-				cout << "Buku ke-" << (i + 1) << " gagal ditambahkan.\n";
-				continue;
-				//return 0;
-			} else if (bukuBaru->stok < 1) {
-				cin.ignore();
-				cout << "[!] Stok buku harus >= 1! Buku tidak dapat ditambahkan.\n";
-				delete bukuBaru;
-				cout << "Buku ke-" << (i + 1) << " gagal ditambahkan!.\n";
-				continue;
-				//return 0;
+				cout << "[!] Tahun buku harus angka!\n";
+				// delete bukuBaru;
+				// cout << "Buku ke-" << (i + 1) << " gagal ditambahkan.\n";
+				// continue;
+				// return 0;
 			} else {
-				if (head == NULL) {
-					head = bukuBaru;
-				} else {
-					Buku *bantu = head;
-					while (bantu->next != NULL) {
-						bantu = bantu->next;
-					}
-					bantu->next = bukuBaru;
-				}
-	
-			
-				cout << "Buku ke-" << (i + 1) << " berhasil ditambahkan!.\n";
-				simpanFile();
-				cin.ignore();
-				
-				// return 1;
+				tahunValid = true;
 			}
-		}
+		} while (!tahunValid);
+	
+		bool stokValid = false;
+		do {
+			cout << "Masukkan Stok: "; //cin >> bukuBaru->stok;
+			bukuBaru->status = 0; //status buku baru belum dipinjam
+			bukuBaru->next = NULL; //inisialisasi pengait buku baru
+			// error handling stok negatif atau 0
+				if (!(cin >> bukuBaru->stok)) {
+					cin.clear();
+					cin.ignore(1000, '\n');
+					cout << "[!] Stok buku harus angka!\n";
+					// delete bukuBaru;
+					// cout << "Buku ke-" << (i + 1) << " gagal ditambahkan.\n";
+					// continue;
+					//return 0;
+				} else if (bukuBaru->stok < 1) {
+					cin.clear();
+					cin.ignore();
+					cout << "[!] Stok buku harus >= 1!\n";
+					// delete bukuBaru;
+					// cout << "Buku ke-" << (i + 1) << " gagal ditambahkan!.\n";
+					// continue;
+					//return 0;
+				} else {
+					stokValid = true;
+					if (head == NULL) {
+						head = bukuBaru;
+					} else {
+						Buku *bantu = head;
+						while (bantu->next != NULL) {
+							bantu = bantu->next;
+						}
+						bantu->next = bukuBaru;
+					}
+		
+				
+					cout << "Buku ke-" << (i + 1) << " berhasil ditambahkan!.\n";
+					simpanFile();
+					cin.ignore();
+					
+					// return 1;
+				}
+			
+		} while (!stokValid);
 	}
 	lanjutMenu();
 }
