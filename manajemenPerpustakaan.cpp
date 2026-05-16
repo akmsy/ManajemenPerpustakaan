@@ -149,12 +149,10 @@ int menuTambahBuku(Buku *&head){
 		cout << "Buku ke-" << (i + 1) << " gagal ditambahkan.\n";
         delete bukuBaru;
 		continue;
-        //return 0;
 	}
 
     	cout << "Masukkan Judul: "; cin.getline(bukuBaru->judul, 100);
     	cout << "Masukkan Penulis: "; cin.getline(bukuBaru->penulis, 100);
-    	// cout << "Masukkan Tahun: "; //cin >> bukuBaru->tahun;
 		
 		bool tahunValid = false;
 		do {
@@ -163,10 +161,6 @@ int menuTambahBuku(Buku *&head){
 				cin.clear();
 				cin.ignore(1000, '\n');
 				cout << "[!] Tahun buku harus angka!\n";
-				// delete bukuBaru;
-				// cout << "Buku ke-" << (i + 1) << " gagal ditambahkan.\n";
-				// continue;
-				// return 0;
 			} else {
 				tahunValid = true;
 			}
@@ -174,7 +168,7 @@ int menuTambahBuku(Buku *&head){
 	
 		bool stokValid = false;
 		do {
-			cout << "Masukkan Stok: "; //cin >> bukuBaru->stok;
+			cout << "Masukkan Stok: ";
 			bukuBaru->status = 0; //status buku baru belum dipinjam
 			bukuBaru->next = NULL; //inisialisasi pengait buku baru
 			// error handling stok negatif atau 0
@@ -182,18 +176,10 @@ int menuTambahBuku(Buku *&head){
 					cin.clear();
 					cin.ignore(1000, '\n');
 					cout << "[!] Stok buku harus angka!\n";
-					// delete bukuBaru;
-					// cout << "Buku ke-" << (i + 1) << " gagal ditambahkan.\n";
-					// continue;
-					//return 0;
 				} else if (bukuBaru->stok < 1) {
 					cin.clear();
 					cin.ignore();
 					cout << "[!] Stok buku harus >= 1!\n";
-					// delete bukuBaru;
-					// cout << "Buku ke-" << (i + 1) << " gagal ditambahkan!.\n";
-					// continue;
-					//return 0;
 				} else {
 					stokValid = true;
 					if (head == NULL) {
@@ -205,13 +191,9 @@ int menuTambahBuku(Buku *&head){
 						}
 						bantu->next = bukuBaru;
 					}
-		
-				
 					cout << "Buku ke-" << (i + 1) << " berhasil ditambahkan!.\n";
 					simpanFile();
 					cin.ignore();
-					
-					// return 1;
 				}
 			
 		} while (!stokValid);
@@ -223,8 +205,7 @@ int menuTambahBuku(Buku *&head){
 int menuEditBuku(Buku *head){
 	if (head == NULL) {
 		cout << "Buku kosong. Tidak ada buku yang dapat diedit." << endl;
-		lanjutMenu();
-		// return 0;	
+		lanjutMenu();	
 	}
 
 	char target[100];
@@ -262,27 +243,21 @@ int menuEditBuku(Buku *head){
 					cout << "Masukkan Penulis baru: "; cin.ignore(); cin.getline(bantu->penulis, 100);
 					break;
 				case 3:
-					cout << "Masukkan Tahun baru: "; //cin >> bantu->tahun;
+					cout << "Masukkan Tahun baru: ";
 						while (!(cin >> bantu->tahun)) {
 							cin.clear();
 							cin.ignore(1000, '\n');
 							cout << "[!] Tahun buku harus angka!\n"; 
 							cout << "Masukkan Tahun baru: ";
-							// delete bantu;
-							// lanjutMenu();
-							// return 0;
 						} 
 					break;
 				case 4:
-					cout << "Masukkan Stok baru: "; //cin >> bantu->stok;
+					cout << "Masukkan Stok baru: ";
 						while (!(cin >> bantu->stok) || bantu->stok < 1) {
 							cin.clear();
 							cin.ignore(1000, '\n');
 							cout << "[!] Stok buku harus angka dan >=1!\n";
 							cout << "Masukkan Stok baru: ";
-							// delete bantu;
-							// lanjutMenu();
-							// return 0;
 						} 
 					break;
 				default:
@@ -307,7 +282,6 @@ int menuEditBuku(Buku *head){
 
 	cout << "Buku tidak ditemukan." << endl;
 	lanjutMenu();
-	// return 0; //gagal nemu buku
 }
 
 //fungsi hapus buku
@@ -315,7 +289,6 @@ int menuHapusBuku(Buku *&head){
 	if (head == NULL) {
 		cout << "Buku kosong. Tidak ada buku yang dapat dihapus." << endl;
 		lanjutMenu();
-		// return 0;	
 	}
 
 	char target[100], targetLow[100];
@@ -361,7 +334,6 @@ int menuHapusBuku(Buku *&head){
 
 	cout << "Buku tidak ditemukan." << endl;
 	lanjutMenu();
-	// return 0; //gagal nemu buku
 }
 
 //fungsi tampilan menu awal
@@ -439,8 +411,6 @@ void menuLihatDaftarBuku(Buku *head){
 		<< setw(25) << "Judul"
 		<< setw(28) << "Penulis"
 		<< setw(6) << "Tahun"
-		// << setw(6) << "Stok"
-		// << setw(12) << "Status" << endl;
 		<< setw(12) << "Tersedia"
 		<< setw(9) << "Dipinjam" 
 		<< v << endl;
@@ -457,8 +427,6 @@ void menuLihatDaftarBuku(Buku *head){
 			<< setw(25) << bantu->judul
 			<< setw(28) << bantu->penulis
 			<< setw(6) << bantu->tahun
-			// << setw(6) << bantu->stok
-			// << setw(12) << "Tersedia: " << bantu->stok << " |Dipinjam: " << bantu->status <<endl; //status
 			<< setw(12) << bantu->stok
 			<< setw(9) << bantu->status 
 			<< v << endl; 
@@ -518,7 +486,6 @@ void menuCariBuku(){
             // cout << "Stok    : " << bantu->stok    << endl;
             cout << "Tersedia : " << bantu->stok    << endl;
             cout << "Dipinjam : " << bantu->status    << endl << endl;
-            // cout << "Status  : " << "Tersedia: " << bantu->stok << " | Dipinjam: " << bantu->status << endl << endl;
             ditemukan = true;
             break;
         }
@@ -740,9 +707,7 @@ void menuTransaksi(){
 						lanjutMenu();
 					} else {
 						cout << "Maaf, jumlah buku yang diminta melebihi stok yang tersedia." << endl;
-						// cin.ignore();
 						lanjutMenu();
-						// return;
 					}
 					break;
 				}
@@ -913,7 +878,6 @@ int main(){
 		cout << "Masukkan username: "; cin >> username;
 		cout << "Masukkan password: "; cin >> password;
         cout << endl;
-		//system("cls");
 	
 		// cek username dan password
 		if (username == usernameTrue && password == passwordTrue){
