@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <cstring>
 #include <ctime>
+#include <cstdlib>
 
 using namespace std;
 
@@ -237,10 +238,10 @@ int menuEditBuku(Buku *head){
 
 			switch (pilihan) {
 				case 1:
-					cout << "Masukkan Judul baru: "; cin.ignore(); cin.getline(bantu->judul, 100);
+					cout << "Masukkan Judul baru: "; cin.getline(bantu->judul, 100);
 					break;
 				case 2:
-					cout << "Masukkan Penulis baru: "; cin.ignore(); cin.getline(bantu->penulis, 100);
+					cout << "Masukkan Penulis baru: "; cin.getline(bantu->penulis, 100);
 					break;
 				case 3:
 					cout << "Masukkan Tahun baru: ";
@@ -271,8 +272,8 @@ int menuEditBuku(Buku *head){
 			if (konfirm != 'y' && konfirm != 'Y'){
 				cout << "Perubahan dibatalkan!" << endl;
 				return 0;
-			}
-
+			} 
+			
 			cout << "Buku berhasil diedit!" << endl;
 			simpanFile();
 			return 1; // jika berhasil edit 
@@ -392,12 +393,13 @@ void menuManajemenBuku(){
 
 // fungsi Lihat Daftar Buku
 void menuLihatDaftarBuku(Buku *head){
-	if (head == NULL){
+	FILE *file = fopen("perpustakaan.txt", "r");
+	if (file == NULL){
 		cout << "Data kosong" << endl;
 		return;
 	}
 
-	Buku *bantu = head;
+	char baris[200];
 
 	cout << right;
 	cout << tl << setfill(h) << setw(96) << "" << tr << endl;
@@ -419,28 +421,33 @@ void menuLihatDaftarBuku(Buku *head){
 
 	int totalJudul = 0;
 	int totalStok = 0;
-	while (bantu != NULL){
-	
+	while (fgets(baris, sizeof(baris), file)){
+        char *ISBN = strtok(baris, "|");
+        char *judul = strtok(NULL, "|");
+        char *penulis = strtok(NULL, "|");
+        char *tahun = strtok(NULL, "|");
+        char *stok = strtok(NULL, "|");
+        char *status = strtok(NULL, "|\n");
+		
 		cout << left 
 			<< setw(2) << v
-			<< setw(15) << bantu->ISBN
-			<< setw(25) << bantu->judul
-			<< setw(28) << bantu->penulis
-			<< setw(6) << bantu->tahun
-			<< setw(12) << bantu->stok
-			<< setw(9) << bantu->status 
+			<< setw(15) << ISBN
+			<< setw(25) << judul
+			<< setw(28) << penulis
+			<< setw(6) << tahun
+			<< setw(12) << stok
+			<< setw(9) << status 
 			<< v << endl; 
 		
 		totalJudul++;
-		totalStok += bantu->stok;
-
-		bantu = bantu->next;
+		totalStok += atoi(stok);
 	}
 
 	cout << bl << setfill(h) << setw(96) << "" << br << endl;
 	cout << setfill(' ');
     cout << "Total Judul: " << totalJudul << " judul buku.\n";
     cout << "Total Stok Tersedia: " << totalStok << " buku.\n";
+	fclose(file);
 
 	lanjutMenu();
 }
