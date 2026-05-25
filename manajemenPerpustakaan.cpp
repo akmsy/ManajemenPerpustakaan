@@ -352,7 +352,7 @@ void tampilanMenuAwal(){
 	cout << "[0] Keluar Program" << endl;
 	cout << ">> "; cin >> optionMenu;
 	cin.ignore();
-	// system("cls");
+	system("cls");
 }
 
 // fungsi untuk menu manajemen buku
@@ -614,7 +614,7 @@ void menuSortingBuku(){
 		cout << "[0] Kembali" << endl;
 		cout << ">> "; cin >> pilih;
 		cin.ignore();
-		// system("cls");
+		system("cls");
 
 		switch (pilih){
 		case '1':
